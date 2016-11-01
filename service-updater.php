@@ -15,13 +15,11 @@
       private $loader;
       private $renderer;
       private $mapper;
-      private $helper;
     	
       public function __construct() {
       	$this->loader = new \KuntaAPI\Services\Loader();
       	$this->renderer = new \KuntaAPI\Services\Renderer();
       	$this->mapper = new \KuntaAPI\Services\Mapper();
-      	$this->helper = new \KuntaAPI\Core\QTranslateHelper();
       	
       	add_action('kunta_api_service_updater_poll', array($this, 'poll'));
       }
