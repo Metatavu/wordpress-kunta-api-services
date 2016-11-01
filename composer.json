@@ -1,0 +1,11 @@
+{
+  "name": "otavanopisto/wordpress-kunta-api-services",
+  "description": "Wordpress plugin for Kunta API services integration",
+  "keywords": ["wordpress", "plugin", "kunta-api"],
+  "license": "AGPL-3.0",
+  "type": "wordpress-plugin",
+  "require": {
+    "twig/twig": "^1.26",
+    "sunra/php-simple-html-dom-parser": "^1.5"
+  }
+}
