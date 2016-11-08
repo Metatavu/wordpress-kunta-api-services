@@ -12,12 +12,10 @@
   	
     class Updater {
       
-      private $loader;
       private $renderer;
       private $mapper;
-    	
+      
       public function __construct() {
-      	$this->loader = new \KuntaAPI\Services\Loader();
       	$this->renderer = new \KuntaAPI\Services\Renderer();
       	$this->mapper = new \KuntaAPI\Services\Mapper();
       	
@@ -25,13 +23,17 @@
       }
       
       public function startPolling() {
-  	    wp_schedule_event(time(), 'Minutely', 'kunta_api_service_updater_poll');
+        if (! wp_next_scheduled ( 'kunta_api_service_updater_poll' )) {
+          wp_schedule_event(time(), 'Minutely', 'kunta_api_service_updater_poll');
+        }
       }
       
       public function poll() {
-      	error_log("Polling for new services");
-      	
-      	$services = $this->loader->listServices(0, 3);
+        $offset = get_option('kunta-api-sync-offset');
+      	if(empty($offset)) {
+          $offset = 0;
+        }
+      	$services = Loader::listOrganizationServices($offset, 10);
       	foreach ($services as $service) {
       	  $serviceId = $service->getId();
       	  $defaultPageId = $this->mapper->getDefaultPageId($serviceId);
@@ -42,6 +44,12 @@
       	  	$this->mapper->setDefaultPageId($serviceId, $pageId);
       	  }
       	}
+        if(count($services) == 0) {
+          $offset = 0;
+        } else {
+          $offset += 10;
+        }
+        update_option('kunta-api-sync-offset', $offset);
       }
       
       private function renderDefaultPage($service) {
@@ -49,21 +57,19 @@
       }
       
       private function createPage($title, $content) {
-      	return wp_insert_post(array(
+        $post = wp_insert_post(array(
       	  'post_content' => $content,
       	  'post_title' => $title,
       	  'post_status' => 'draft',
       	  'post_type' => 'page'
       	));
+        return $post;
       }
 
     }
     
   }
   
-  add_action('wp', function () {
-  	$updater = new Updater();
-  	$updater->startPolling();
-  });
-  
+  $updater = new Updater();
+  $updater->startPolling();
 ?>

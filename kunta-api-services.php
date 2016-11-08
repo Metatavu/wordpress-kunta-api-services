@@ -9,8 +9,8 @@
 
 defined ( 'ABSPATH' ) || die ( 'No script kiddies please!' );
 
-require_once("service-updater.php");
-
-$updater = new \KuntaAPI\Services\Updater();
+require_once( __DIR__ . '/activator.php');
+require_once( __DIR__ . '/service-updater.php');
+require_once( __DIR__ . '/service-content-processor.php');
 
 ?>
