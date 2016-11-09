@@ -12,5 +12,8 @@ defined ( 'ABSPATH' ) || die ( 'No script kiddies please!' );
 require_once( __DIR__ . '/activator.php');
 require_once( __DIR__ . '/service-updater.php');
 require_once( __DIR__ . '/service-content-processor.php');
+require_once( __DIR__ . '/service-channel-mapper.php');
+require_once( __DIR__ . '/electronic-channel-content-processor.php');
+require_once( __DIR__ . '/service-channel-renderer.php');
 
 ?>

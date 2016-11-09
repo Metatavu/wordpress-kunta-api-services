@@ -2,7 +2,7 @@
   namespace KuntaAPI\Services;
   
   require_once( __DIR__ . '/vendor/autoload.php');
-    
+  require_once( __DIR__ . '/service-component-renderer.php');
   if (!defined('ABSPATH')) { 
     exit;
   }
@@ -12,7 +12,7 @@
     class ServiceContentProcessor extends \KuntaAPI\Core\AbstractContentProcessor {
 
       public function process($lang, $dom, $mode) {
-        $serviceRenderer = new Renderer();
+        $renderer = new ServiceComponentRenderer();
         
         foreach ($dom->find('*[data-type="kunta-api-service-component"]') as $article) {
           $serviceId = $article->{'data-service-id'};
@@ -25,7 +25,7 @@
             $article->removeAttribute('data-component');
           }
           $service = Loader::findService($serviceId);
-          $article->innertext = $serviceRenderer->renderComponent($service, $lang, $serviceComponent);
+          $article->innertext = $renderer->renderComponent($service, $lang, $serviceComponent);
         } 
       }
     }

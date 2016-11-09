@@ -2,15 +2,16 @@
   namespace KuntaAPI\Services;
   
   use KuntaAPI\Model\LocalizedValue;
-  use KuntaAPI\Services\ComponentMapper;
+  use KuntaAPI\Services\ServiceComponentMapper;
+  use KuntaAPI\Services\ServiceChannelMapper;
 		
   defined( 'ABSPATH' ) || die( 'No script kiddies please!' );
   
   require_once( __DIR__ . '/vendor/autoload.php');
   require_once( __DIR__ . '/service-component-mapper.php');
   
-  if (!class_exists( 'KuntaAPI\Services\Renderer' ) ) {
-    class Renderer {
+  if (!class_exists( 'KuntaAPI\Services\PageRenderer' ) ) {
+    class PageRenderer {
       
       private $twig;
       
@@ -18,32 +19,27 @@
         $this->twig = new \Twig_Environment(new \Twig_Loader_Filesystem( __DIR__ . '/templates'));
       }
       
-      function renderDefault($service) {
+      public function renderDefault($service) {
         return $this->renderLocaleContents($service); 
-      }
-      
-      function renderComponent($service, $lang, $type) {
-        $componentData = ComponentMapper::renderLocaleContents($service)[$lang];
-        
-        switch ($type) {
-          case 'description':
-            return $this->twig->render("service-description.twig", $componentData);
-          case 'userInstruction':
-            return $this->twig->render("service-user-instructions.twig", $componentData);
-          case 'languages':
-            return $this->twig->render("service-languages.twig", $componentData);
-          default:
-            error_log("unknown servicetype $type");
-            break;
-        }
       }
       
       private function renderLocaleContents($service) {
       	$serviceId = $service->getId();
-      	$componentDatas = ComponentMapper::renderLocaleContents($service);
-
+      	$componentDatas = ServiceComponentMapper::renderLocaleContents($service);
+        foreach ($componentDatas as $language => $value) {
+          $componentDatas[$language]['electronicChannels'] = [];
+        }
+        if(isset($service['electronicChannels'])){
+          foreach ($service['electronicChannels'] as $electronicChannel) {
+            foreach (ServiceChannelMapper::renderElectronicChannel($serviceId, $electronicChannel) as $language => $electronicChannelData) {
+             $componentDatas[$language]['electronicChannels'][] = $electronicChannelData;
+             error_log('rendered electronic channel');
+            }
+          }
+        }
+        
       	$localizedValues = [];
-      	
+        
       	foreach ($componentDatas as $language => $componentData) {;
       	  $localizedValue =	new LocalizedValue();
       	  $localizedValue->setLanguage($language);
@@ -60,7 +56,8 @@
       	  'serviceId' => $serviceId,
       	  'description' => $languageData['description'],
       	  'userInstruction' => $languageData['userInstruction'],
-      	  'languages' => $languageData['languages']
+      	  'languages' => $languageData['languages'],
+          'electronicChannels' => $languageData['electronicChannels']
       	]);
       }
       

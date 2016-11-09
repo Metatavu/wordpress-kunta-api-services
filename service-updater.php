@@ -6,7 +6,7 @@
   require_once(__DIR__ . '/vendor/autoload.php');
   require_once(__DIR__ . '/service-loader.php');
   require_once(__DIR__ . '/service-mapper.php');
-  require_once(__DIR__ . '/service-renderer.php');
+  require_once(__DIR__ . '/page-renderer.php');
   
   if (!class_exists( 'KuntaAPI\Services\Updater' ) ) {
   	
@@ -16,7 +16,7 @@
       private $mapper;
       
       public function __construct() {
-      	$this->renderer = new \KuntaAPI\Services\Renderer();
+      	$this->renderer = new \KuntaAPI\Services\PageRenderer();
       	$this->mapper = new \KuntaAPI\Services\Mapper();
       	
       	add_action('kunta_api_service_updater_poll', array($this, 'poll'));

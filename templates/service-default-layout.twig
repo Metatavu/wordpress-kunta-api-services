@@ -14,3 +14,12 @@
 {% include 'service-languages.twig' %}
 </article>
 {% endif %}
+
+{% if electronicChannels %}
+<h3>Sähköiset palvelukanavat</h3>
+{% for electronicChannel in electronicChannels %}
+  <article data-type="kunta-api-service-electronic-channel" data-service-id="{{ serviceId }}" data-service-channel-id="{{ electronicChannel.serviceChannelId }}">
+  {% include 'electronic-service-channel.twig' with electronicChannel only %}
+  </article>
+{% endfor %}  
+{% endif %}

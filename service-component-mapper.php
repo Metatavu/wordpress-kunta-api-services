@@ -7,8 +7,8 @@
   
   require_once( __DIR__ . '/vendor/autoload.php');
   
-  if (!class_exists( 'KuntaAPI\Services\ComponentMapper' ) ) {
-    class ComponentMapper {
+  if (!class_exists( 'KuntaAPI\Services\ServiceComponentMapper' ) ) {
+    class ServiceComponentMapper {
       
       public static function renderLocaleContents($service) {
         $result = [
@@ -29,6 +29,7 @@
       		break;
       	  }
       	}
+        
         foreach ($result as $language => $value) {
           $result[$language]['languages'] = $service->getLanguages();
         }
