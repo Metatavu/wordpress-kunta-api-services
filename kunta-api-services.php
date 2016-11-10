@@ -15,5 +15,8 @@ require_once( __DIR__ . '/service-content-processor.php');
 require_once( __DIR__ . '/service-channel-mapper.php');
 require_once( __DIR__ . '/electronic-channel-content-processor.php');
 require_once( __DIR__ . '/service-channel-renderer.php');
-
+require_once( __DIR__ . '/phone-channel-content-processor.php');
+require_once( __DIR__ . '/printable-form-channel-content-processor.php');
+require_once( __DIR__ . '/service-location-channel-content-processor.php');
+require_once( __DIR__ . '/webpage-channel-content-processor.php');
 ?>

@@ -11,6 +11,10 @@
       
       private static $services = [];
       private static $electronicChannels = [];
+      private static $phoneChannels = [];
+      private static $printableFormChannels = [];
+      private static $serviceLocationChannels = [];
+      private static $webPageChannels = [];
       
       public static function listOrganizationServices($firstResult, $maxResults) {
         $organizationId = \KuntaAPI\Core\CoreSettings::getValue('organizationId');
@@ -34,6 +38,34 @@
           self::$electronicChannels[$id] = \KuntaAPI\Core\Api::getServicesApi()->findServiceElectronicChannel($serviceId, $id);
         }
         return self::$electronicChannels[$id];
+      }
+      
+      public static function findPhoneServiceChannel($serviceId, $id) {
+        if(!isset(self::$phoneChannels[$id])) {
+          self::$phoneChannels[$id] = \KuntaAPI\Core\Api::getServicesApi()->findServicePhoneChannel($serviceId, $id);
+        }
+        return self::$phoneChannels[$id];
+      }
+      
+      public static function findPrintableFormServiceChannel($serviceId, $id) {
+        if(!isset(self::$printableFormChannels[$id])) {
+          self::$printableFormChannels[$id] = \KuntaAPI\Core\Api::getServicesApi()->findServicePrintableFormChannel($serviceId, $id);
+        }
+        return self::$printableFormChannels[$id];
+      }
+      
+      public static function findServiceLocationServiceChannel($serviceId, $id) {
+        if(!isset(self::$serviceLocationChannels[$id])) {
+          self::$serviceLocationChannels[$id] = \KuntaAPI\Core\Api::getServicesApi()->findServiceServiceLocationChannel($serviceId, $id);
+        }
+        return self::$serviceLocationChannels[$id];
+      }
+    
+      public static function findWebPageServiceChannel($serviceId, $id) {
+        if(!isset(self::$webPageChannels[$id])) {
+          self::$webPageChannels[$id] = \KuntaAPI\Core\Api::getServicesApi()->findServiceWebPageChannel($serviceId, $id);
+        }
+        return self::$webPageChannels[$id];
       }
       
       public static function findService($id) {
