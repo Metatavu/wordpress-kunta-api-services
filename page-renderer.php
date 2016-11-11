@@ -25,7 +25,7 @@
       
       private function renderLocaleContents($service) {
       	$serviceId = $service->getId();
-      	$componentDatas = ServiceComponentMapper::renderLocaleContents($service);
+      	$componentDatas = ServiceComponentMapper::mapLocaleContents($service);
         foreach ($componentDatas as $language => $value) {
           $componentDatas[$language]['electronicChannels'] = [];
           $componentDatas[$language]['phoneChannels'] = [];
@@ -35,48 +35,42 @@
         }
         if(isset($service['electronicChannels'])) {
           foreach ($service['electronicChannels'] as $electronicChannel) {
-            foreach (ServiceChannelMapper::renderElectronicChannel($serviceId, $electronicChannel) as $language => $electronicChannelData) {
+            foreach (ServiceChannelMapper::mapElectronicChannel($serviceId, $electronicChannel) as $language => $electronicChannelData) {
              $componentDatas[$language]['electronicChannels'][] = $electronicChannelData;
-             error_log('rendered electronic channel');
             }
           }
         }
         
         if(isset($service['phoneChannels'])) {
           foreach ($service['phoneChannels'] as $phoneChannel) {
-            foreach (ServiceChannelMapper::renderPhoneChannel($serviceId, $phoneChannel) as $language => $phoneChannelData) {
+            foreach (ServiceChannelMapper::mapPhoneChannel($serviceId, $phoneChannel) as $language => $phoneChannelData) {
              $componentDatas[$language]['phoneChannels'][] = $phoneChannelData;
-             error_log('rendered phone channel');
             }
           }
         }
         
         if(isset($service['printableFormChannels'])) {
           foreach ($service['printableFormChannels'] as $printableFormChannel) {
-            foreach (ServiceChannelMapper::renderPrintableFormChannel($serviceId, $printableFormChannel) as $language => $printableFormChannelData) {
+            foreach (ServiceChannelMapper::mapPrintableFormChannel($serviceId, $printableFormChannel) as $language => $printableFormChannelData) {
              $componentDatas[$language]['printableFormChannels'][] = $printableFormChannelData;
-             error_log('rendered printableForm channel');
             }
           }
         }
         
         if(isset($service['serviceLocationChannels'])) {
           foreach ($service['serviceLocationChannels'] as $serviceLocationChannel) {
-            foreach (ServiceChannelMapper::renderServiceLocationChannel($serviceId, $serviceLocationChannel) as $language => $serviceLocationChannelData) {
+            foreach (ServiceChannelMapper::mapServiceLocationChannel($serviceId, $serviceLocationChannel) as $language => $serviceLocationChannelData) {
              $componentDatas[$language]['serviceLocationChannels'][] = $serviceLocationChannelData;
-             error_log('rendered serviceLocation channel');
             }
           }
         }
         
         if(isset($service['webPageChannels'])) {
           foreach ($service['webPageChannels'] as $webPageChannel) {
-            foreach (ServiceChannelMapper::renderWebPageChannel($serviceId, $webPageChannel) as $language => $webPageChannelData) {
+            foreach (ServiceChannelMapper::mapWebPageChannel($serviceId, $webPageChannel) as $language => $webPageChannelData) {
              $componentDatas[$language]['webPageChannels'][] = $webPageChannelData;
-             error_log('rendered webPage channel');
             }
           }
-          error_log(print_r($service->getNames(), true));
         }
         
       	$localizedValues = [];

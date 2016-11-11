@@ -20,7 +20,7 @@
       }
       
       public function renderComponent($service, $lang, $type) {
-        $componentData = ServiceComponentMapper::renderLocaleContents($service)[$lang];
+        $componentData = ServiceComponentMapper::mapLocaleContents($service)[$lang];
         
         switch ($type) {
           case 'description':

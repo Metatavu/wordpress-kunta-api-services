@@ -76,8 +76,28 @@
           self::$services[$id]['printableFormChannels'] = \KuntaAPI\Core\Api::getServicesApi()->listServicePrintableFormChannels($id);
           self::$services[$id]['serviceLocationChannels'] = \KuntaAPI\Core\Api::getServicesApi()->listServiceServiceLocationChannels($id);
           self::$services[$id]['webPageChannels'] = \KuntaAPI\Core\Api::getServicesApi()->listServiceWebPageChannels($id);
+          
+          self::cacheServiceChannelsFromService(self::$services[$id]);
         }
         return self::$services[$id];
+      }
+
+      private static function cacheServiceChannelsFromService($service) {
+        foreach ($service['electronicChannels'] as $electronicChannel) {
+          self::$electronicChannels[$electronicChannel->getId()] = $electronicChannel;
+        }
+        foreach ($service['phoneChannels'] as $phoneChannel) {
+          self::$phoneChannels[$phoneChannel->getId()] = $phoneChannel;
+        }
+        foreach ($service['printableFormChannels'] as $printableFormChannel) {
+          self::$printableFormChannels[$printableFormChannel->getId()] = $printableFormChannel;
+        }
+        foreach ($service['serviceLocationChannels'] as $serviceLocationChannel) {
+          self::$serviceLocationChannels[$serviceLocationChannel->getId()] = $serviceLocationChannel;
+        }
+        foreach ($service['webPageChannels'] as $webPageChannel) {
+          self::$webPageChannels[$webPageChannel->getId()] = $webPageChannel;
+        }
       }
     }
     

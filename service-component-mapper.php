@@ -10,11 +10,12 @@
   if (!class_exists( 'KuntaAPI\Services\ServiceComponentMapper' ) ) {
     class ServiceComponentMapper {
       
-      public static function renderLocaleContents($service) {
-        $result = [
-          'fi' => [],
-          'en' => []
-        ];
+      public static function mapLocaleContents($service) {
+        $result = [];
+
+        foreach (\KuntaAPI\Core\QTranslateHelper::getEnabledLanguages() as $lang) {
+          $result[$lang] = [];
+        }
 
       	foreach ($service->getDescriptions() as $serviceDescription) {
       	  switch ($serviceDescription->getType()) {
