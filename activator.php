@@ -6,7 +6,7 @@
   
   function kuntaApiServicesActivate($file) {
     if(!file_exists("$file/vendor/autoload.php")) {
-      exec("composer install -d $file");
+      exec("COMPOSER_HOME=/tmp/composer composer install -d $file");
     }
   }
 
