@@ -69,6 +69,7 @@
       }
       
       public static function mapElectronicChannel($serviceId, $electronicChannel) {
+        
         $result = [];
 
         foreach (\KuntaAPI\Core\QTranslateHelper::getEnabledLanguages() as $lang) {
@@ -77,6 +78,11 @@
             'serviceHours' => [],
             'webpages' => []
           ];
+        }
+        
+        if(!isset($electronicChannel)) {
+          error_log("service id $serviceId attempted to map null electronic channel");
+          return $result;
         }
         
         foreach ($electronicChannel->getNames() as $electronicChannelName) {
@@ -127,6 +133,10 @@
           ];
         }        
 
+        if(!isset($phoneChannel)) {
+          error_log("service id $serviceId attempted to map null phoneChannel");
+          return $result;
+        }
 
         foreach ($phoneChannel->getNames() as $phoneChannelName) {
       	  $result[$phoneChannelName->getLanguage()]['name'] = $phoneChannelName->getValue();
@@ -181,6 +191,11 @@
             'supportContacts' => []
           ];
         } 
+        
+        if(!isset($printableFormChannel)) {
+          error_log("service id $serviceId attempted to map null printableFormChannel");
+          return $result;
+        }
         
         foreach ($printableFormChannel->getNames() as $printableFormChannelName) {
       	  $result[$printableFormChannelName->getLanguage()]['name'] = $printableFormChannelName->getValue();
@@ -248,6 +263,11 @@
           ];
         } 
 
+        if(!isset($serviceLocationChannel)) {
+          error_log("service id $serviceId attempted to map null serviceLocationChannel");
+          return $result;
+        }
+
         foreach ($serviceLocationChannel->getNames() as $serviceLocationChannelName) {
       	  $result[$serviceLocationChannelName->getLanguage()]['name'] = $serviceLocationChannelName->getValue();
       	}
@@ -312,6 +332,11 @@
             'webpages' => []
           ];
         } 
+
+        if(!isset($webPageChannel)) {
+          error_log("service id $serviceId attempted to map null webPageChannel");
+          return $result;
+        }
 
         foreach ($webPageChannel->getNames() as $webPageChannelName) {
       	  $result[$webPageChannelName->getLanguage()]['name'] = $webPageChannelName->getValue();
