@@ -32,6 +32,7 @@
       	}
         
         foreach ($result as $language => $value) {
+          $result[$language]['serviceId'] = $service->getId();
           $result[$language]['languages'] = $service->getLanguages();
         }
         return $result;

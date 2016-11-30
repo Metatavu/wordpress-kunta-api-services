@@ -33,7 +33,22 @@
             error_log("unknown servicetype $type");
             break;
         }
-      }   
+      }
+      public function renderComponentParent($service, $lang, $type) {
+        $componentData = ServiceComponentMapper::mapLocaleContents($service)[$lang];
+        
+        switch ($type) {
+          case 'description':
+            return $this->twig->render("service-description-parent.twig", $componentData);
+          case 'userInstruction':
+            return $this->twig->render("service-user-instructions-parent.twig", $componentData);
+          case 'languages':
+            return $this->twig->render("service-languages-parent.twig", $componentData);
+          default:
+            error_log("unknown servicetype $type");
+            break;
+        }
+      } 
     }  
   }
 ?>

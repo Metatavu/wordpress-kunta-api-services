@@ -19,4 +19,6 @@ require_once( __DIR__ . '/phone-channel-content-processor.php');
 require_once( __DIR__ . '/printable-form-channel-content-processor.php');
 require_once( __DIR__ . '/service-location-channel-content-processor.php');
 require_once( __DIR__ . '/webpage-channel-content-processor.php');
+require_once( __DIR__ . '/tinymce.php');
+require_once( __DIR__ . '/service-search-ajax.php');
 ?>
