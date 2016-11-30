@@ -1,0 +1,8 @@
+i.mce-i-kunta_api_sidebar:before {
+  content: "\f0db";
+  font-family: FontAwesome;
+  font-size: 1.5em;
+  position: absolute;
+  top: 2px;
+  left: 2px;
+}
