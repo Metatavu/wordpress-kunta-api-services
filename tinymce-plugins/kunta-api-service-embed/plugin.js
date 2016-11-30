@@ -32,18 +32,9 @@
     });
   }
   
-  function getLocalizedValue(values, locale) {
-    for(var i = 0; i < values.length; i++) {
-      if(locale == values[i].language) {
-        return values[i].value;
-      }
-    }
-    return null;
-  }
-  
   function getLocalizedValueAndType(values, locale, type) {
     for(var i = 0; i < values.length; i++) {
-      if(locale == values[i].language) {
+      if(locale == values[i].language && type == values[i].type) {
         return values[i].value;
       }
     }
@@ -53,9 +44,9 @@
   function appendResult(result) {
     var resultContainer = $('<div>').addClass('mce-kunta-api-search-result-row');
     var languages = result.languages;
-    var name = getLocalizedValue(result.names, LOCALE);
-    var userInstruction = getLocalizedValue(result.descriptions, LOCALE, 'ServiceUserInstruction');
-    var description = getLocalizedValue(result.descriptions, LOCALE, 'Description');
+    var name = getLocalizedValueAndType(result.names, LOCALE, 'Name');
+    var userInstruction = getLocalizedValueAndType(result.descriptions, LOCALE, 'ServiceUserInstruction');
+    var description = getLocalizedValueAndType(result.descriptions, LOCALE, 'Description');
     resultContainer.append(
       $('<p>')
         .addClass('mce-kunta-api-search-result-title')
