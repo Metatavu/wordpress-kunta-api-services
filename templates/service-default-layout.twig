@@ -1,18 +1,13 @@
 {% if description %}
-<h3>Kuvaus</h3>
-<article data-type="kunta-api-service-component" data-component="description" data-service-id="{{ serviceId }}">{% include 'service-description.twig' %}</article>
+{% include 'service-description-parent.twig' %}
 {% endif %}
 
 {% if userInstruction %}
-<h3>Toimintaohjeet</h3>
-<article data-type="kunta-api-service-component" data-component="userInstruction" data-service-id="{{ serviceId }}">{% include 'service-user-instructions.twig' %}</article>
+{% include 'service-user-instructions-parent.twig' %}
 {% endif %}
 
 {% if languages %}
-<h3>Kielet, joilla palvelu on saatavilla</h3>
-<article data-type="kunta-api-service-component" data-component="languages" data-service-id="{{ serviceId }}">
-{% include 'service-languages.twig' %}
-</article>
+{% include 'service-languages-parent.twig' %}
 {% endif %}
 
 {% if electronicChannels %}
