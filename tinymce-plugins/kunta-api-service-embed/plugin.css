@@ -10,3 +10,11 @@
   margin-bottom:10px;
   font-weight: bold;
 }
+i.mce-i-kunta_api_service_embed:before {
+  content: "\f12e";
+  font-family: FontAwesome;
+  font-size: 1.5em;
+  position: absolute;
+  top: 3px;
+  left: 2px;
+}
