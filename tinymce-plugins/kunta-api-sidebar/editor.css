@@ -1,0 +1,19 @@
+.mce-kunta-api-sidebar-content.mceNonEditable {
+  opacity: 1;
+  color: #000;
+}
+
+.mce-kunta-api-sidebar-content.mceNonEditable:hover {
+  opacity: 1;
+  color: #1a1a1a;
+  background: #fff;
+}
+
+.mce-kunta-api-sidebar-content.mceNonEditable:before {
+  content: '';
+  background: transparent url( './sidebar.png' ) repeat-y scroll center center;
+  outline: 0;
+  width: 100%;
+  height: 20px;
+  display: block;
+}
