@@ -26,6 +26,8 @@
           $serviceChannelId = $article->{'data-service-channel-id'};
           if($mode == 'edit') {
              $article->class = 'mceNonEditable';
+             $article->contentEditable = 'false';
+             $article->readonly = 'true';
           } else {
             $article->removeAttribute('data-service-id');
             $article->removeAttribute('data-type');

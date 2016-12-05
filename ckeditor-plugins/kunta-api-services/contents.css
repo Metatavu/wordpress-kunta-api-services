@@ -1,0 +1,21 @@
+*[data-type="kunta-api-service-component"],
+*[data-type="kunta-api-service-electronic-channel"],
+*[data-type="kunta-api-service-phone-channel"],
+*[data-type="kunta-api-service-printable-form-channel"],
+*[data-type="kunta-api-service-location-channel"],
+*[data-type="kunta-api-service-webpage-channel"] {
+  opacity: 0.5;
+  cursor: default;
+  color: red;
+  background: rgba(255, 200, 200, 0.1);
+}
+
+*[data-type="kunta-api-service-component"]:hover,
+*[data-type="kunta-api-service-electronic-channel"]:hover,
+*[data-type="kunta-api-service-phone-channel"]:hover,
+*[data-type="kunta-api-service-printable-form-channel"]:hover,
+*[data-type="kunta-api-service-location-channel"]:hover,
+*[data-type="kunta-api-service-webpage-channel"]:hover {
+  opacity: 0.75;
+  background: #fee;
+}}
