@@ -6,7 +6,8 @@ CKEDITOR.plugins.add( 'kunta-api-services', {
       editor.ui.addButton('kunta-api-service-embed', {
         label: 'Upota palvelutietoja',
         command: 'kunta-api-service-embed',
-        toolbar: 'insert'
+        toolbar: 'insert',
+        icon: this.path + 'icons/kunta-api-service-embed.png'
       });
       
       CKEDITOR.dialog.add('kunta-api-service-embed', this.path + 'dialogs/service-embed.js');
