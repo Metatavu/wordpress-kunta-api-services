@@ -1,8 +1,6 @@
 <?php
   namespace KuntaAPI\Services;
-  
-  use KuntaAPI\Model\LocalizedValue;
-		
+  	
   defined( 'ABSPATH' ) || die( 'No script kiddies please!' );
   
   require_once( __DIR__ . '/vendor/autoload.php');
