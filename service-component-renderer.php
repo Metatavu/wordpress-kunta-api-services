@@ -1,9 +1,7 @@
 <?php
   namespace KuntaAPI\Services;
   
-  use KuntaAPI\Model\LocalizedValue;
   use KuntaAPI\Services\ServiceComponentMapper;
-  use KuntaAPI\Services\ServiceChannelMapper;
 		
   defined( 'ABSPATH' ) || die( 'No script kiddies please!' );
   
