@@ -26,8 +26,11 @@
             $article->removeAttribute('data-type');
             $article->removeAttribute('data-component');
           }
+
           $service = Loader::findService($serviceId);
-          $article->innertext = $renderer->renderComponent($service, $lang, $serviceComponent);
+          if (isset($service)) {          
+            $article->innertext = $renderer->renderComponent($service, $lang, $serviceComponent);
+          }
         } 
       }
     }
