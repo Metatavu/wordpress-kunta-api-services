@@ -25,8 +25,8 @@
           $serviceId = $article->{'data-service-id'};
           $serviceChannelId = $article->{'data-service-channel-id'};
           $lang = $article->{'data-lang'};
-          if (!isset($lang)) {
-          	$lang = LocaleHelper::getCurrentLanguage();
+          if (empty($lang)) {
+            $lang = \KuntaAPI\Core\LocaleHelper::getCurrentLanguage();
           }
           
           if ($mode == 'edit') {

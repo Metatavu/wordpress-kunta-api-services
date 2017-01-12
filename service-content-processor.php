@@ -19,10 +19,11 @@
           $serviceId = $article->{'data-service-id'};
           $serviceComponent = $article->{'data-component'};
           $lang = $article->{'data-lang'};
-          if (!isset($lang)) {
-          	$lang = LocaleHelper::getCurrentLanguage();
-          }
           
+          if (empty($lang)) {
+          	$lang = \KuntaAPI\Core\LocaleHelper::getCurrentLanguage();
+          }
+
           if($mode == 'edit') {
             $article->class = 'mceNonEditable';
             $article->contentEditable = 'false';

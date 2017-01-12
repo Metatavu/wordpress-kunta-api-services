@@ -19,6 +19,9 @@
       
       public function renderComponent($service, $lang, $type) {
         $componentData = ServiceComponentMapper::mapLocaleContents($service)[$lang];
+        if (!isset($componentData)) {
+          return '';
+        }
         
         switch ($type) {
           case 'description':
@@ -35,6 +38,9 @@
       
       public function renderComponentParent($service, $lang, $type) {
         $componentData = ServiceComponentMapper::mapLocaleContents($service)[$lang];
+        if (!isset($componentData)) {
+          return '';
+        }
         
         switch ($type) {
           case 'description':
