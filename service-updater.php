@@ -30,30 +30,33 @@
       
       public function poll() {
         $offset = get_option('kunta-api-sync-offset');
-      	if(empty($offset)) {
+      	if (empty($offset)) {
           $offset = 0;
         }
+        
       	$services = Loader::listOrganizationServices($offset, 10);
       	foreach ($services as $service) {
       	  $serviceId = $service->getId();
       	  $defaultPageId = $this->mapper->getDefaultPageId($serviceId);
       	  if (!$defaultPageId) {
       	  	$title = \KuntaAPI\Core\LocaleHelper::getDefaultValue($service->getNames());
-      	  	$content = $this->renderDefaultPage($service);
+      	  	$content = $this->renderDefaultPage(\KuntaAPI\Core\LocaleHelper::getCurrentLanguage(), $service);
       	  	$pageId = $this->createPage($title, $content);
       	  	$this->mapper->setDefaultPageId($serviceId, $pageId);
       	  }
       	}
+      	
         if(count($services) == 0) {
           $offset = 0;
         } else {
           $offset += 10;
         }
+        
         update_option('kunta-api-sync-offset', $offset);
       }
       
-      private function renderDefaultPage($service) {
-      	return $this->renderer->renderDefault($service);
+      private function renderDefaultPage($lang, $service) {
+      	return $this->renderer->renderDefault($lang, $service);
       }
       
       private function createPage($title, $content) {

@@ -32,6 +32,7 @@
             break;
         }
       }
+      
       public function renderComponentParent($service, $lang, $type) {
         $componentData = ServiceComponentMapper::mapLocaleContents($service)[$lang];
         
@@ -46,7 +47,8 @@
             error_log("unknown servicetype $type");
             break;
         }
-      } 
+      }
+      
     }  
   }
 ?>

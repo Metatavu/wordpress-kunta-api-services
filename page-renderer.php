@@ -1,10 +1,9 @@
 <?php
   namespace KuntaAPI\Services;
   
-  use KuntaAPI\Model\LocalizedValue;
   use KuntaAPI\Services\ServiceComponentMapper;
   use KuntaAPI\Services\ServiceChannelMapper;
-		
+    
   defined( 'ABSPATH' ) || die( 'No script kiddies please!' );
   
   require_once( __DIR__ . '/vendor/autoload.php');
@@ -19,13 +18,14 @@
         $this->twig = new \Twig_Environment(new \Twig_Loader_Filesystem( __DIR__ . '/templates'));
       }
       
-      public function renderDefault($service) {
-        return $this->renderLocaleContents($service); 
+      public function renderDefault($lang, $service) {
+        return $this->renderLocaleContents($lang, $service); 
       }
       
-      private function renderLocaleContents($service) {
-      	$serviceId = $service->getId();
-      	$componentDatas = ServiceComponentMapper::mapLocaleContents($service);
+      private function renderLocaleContents($lang, $service) {
+        $serviceId = $service->getId();
+        
+        $componentDatas = ServiceComponentMapper::mapLocaleContents($service);
         foreach ($componentDatas as $language => $value) {
           $componentDatas[$language]['electronicChannels'] = [];
           $componentDatas[$language]['phoneChannels'] = [];
@@ -33,7 +33,8 @@
           $componentDatas[$language]['serviceLocationChannels'] = [];
           $componentDatas[$language]['webPageChannels'] = [];
         }
-        if(isset($service['electronicChannels'])) {
+        
+        if (isset($service['electronicChannels'])) {
           foreach ($service['electronicChannels'] as $electronicChannel) {
             foreach (ServiceChannelMapper::mapElectronicChannel($serviceId, $electronicChannel) as $language => $electronicChannelData) {
              $componentDatas[$language]['electronicChannels'][] = $electronicChannelData;
@@ -73,31 +74,21 @@
           }
         }
         
-      	$localizedValues = [];
-        
-      	foreach ($componentDatas as $language => $componentData) {;
-      	  $localizedValue =	new LocalizedValue();
-      	  $localizedValue->setLanguage($language);
-          $value = $this->renderLocaleContent($serviceId, $componentData);
-          $localizedValue->setValue($value);
-      	  $localizedValues[] = $localizedValue;
-      	}
-      	
-      	return \KuntaAPI\Core\QTranslateHelper::translateLocalizedValues($localizedValues);
+        return $this->renderLocaleContent($serviceId, $componentDatas[$lang]);
       }
       
       private function renderLocaleContent($serviceId, $languageData) {
-      	return $this->twig->render("service-default-layout.twig", [
-      	  'serviceId' => $serviceId,
-      	  'description' => $languageData['description'],
-      	  'userInstruction' => $languageData['userInstruction'],
-      	  'languages' => $languageData['languages'],
+        return $this->twig->render("service-default-layout.twig", [
+          'serviceId' => $serviceId,
+          'description' => $languageData['description'],
+          'userInstruction' => $languageData['userInstruction'],
+          'languages' => $languageData['languages'],
           'electronicChannels' => $languageData['electronicChannels'],
           'phoneChannels' => $languageData['phoneChannels'],
           'printableFormChannels' => $languageData['printableFormChannels'],
           'serviceLocationChannels' => $languageData['serviceLocationChannels'],
           'webPageChannels' => $languageData['webPageChannels']
-      	]);
+        ]);
       }
       
     }  
