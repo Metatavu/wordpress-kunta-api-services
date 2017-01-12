@@ -38,7 +38,7 @@
       	  $serviceId = $service->getId();
       	  $defaultPageId = $this->mapper->getDefaultPageId($serviceId);
       	  if (!$defaultPageId) {
-      	  	$title = \KuntaAPI\Core\QTranslateHelper::translateLocalizedValues($service->getNames());
+      	  	$title = \KuntaAPI\Core\LocaleHelper::getDefaultValue($service->getNames());
       	  	$content = $this->renderDefaultPage($service);
       	  	$pageId = $this->createPage($title, $content);
       	  	$this->mapper->setDefaultPageId($serviceId, $pageId);
@@ -57,13 +57,12 @@
       }
       
       private function createPage($title, $content) {
-        $post = wp_insert_post(array(
+        return wp_insert_post(array(
       	  'post_content' => $content,
       	  'post_title' => $title,
       	  'post_status' => 'draft',
       	  'post_type' => 'page'
       	));
-        return $post;
       }
 
     }
