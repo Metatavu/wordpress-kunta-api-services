@@ -19,23 +19,30 @@
         $this->renderer = new ServiceChannelRenderer();
       }
 
-      public function process($lang, $dom, $mode) {
+      public function process($dom, $mode) {
 
         foreach ($dom->find('*[data-type="'. $this->type .'"]') as $article) {
           $serviceId = $article->{'data-service-id'};
           $serviceChannelId = $article->{'data-service-channel-id'};
-          if($mode == 'edit') {
-             $article->class = 'mceNonEditable';
-             $article->contentEditable = 'false';
-             $article->readonly = 'true';
+          $lang = $article->{'data-lang'};
+          if (!isset($lang)) {
+          	$lang = LocaleHelper::getCurrentLanguage();
+          }
+          
+          if ($mode == 'edit') {
+            $article->class = 'mceNonEditable';
+            $article->contentEditable = 'false';
+            $article->readonly = 'true';
           } else {
             $article->removeAttribute('data-service-id');
             $article->removeAttribute('data-type');
             $article->removeAttribute('data-service-channel-id');
+            $article->removeAttribute('data-lang');
           }
           
           $article->innertext = $this->renderServiceChannelContent($serviceId, $serviceChannelId, $lang);
-        } 
+        }
+        
       }
       
       public abstract function renderServiceChannelContent($serviceId, $serviceChannelId, $lang);
