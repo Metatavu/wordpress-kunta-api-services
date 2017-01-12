@@ -70,7 +70,7 @@
         
         $result = [];
 
-        foreach (\KuntaAPI\Core\QTranslateHelper::getEnabledLanguages() as $lang) {
+        foreach (\KuntaAPI\Core\LocaleHelper::getEnabledLanguages() as $lang) {
           $result[$lang] = [
             'attachments' => [],
             'serviceHours' => [],
@@ -122,7 +122,7 @@
       public static function mapPhoneChannel($serviceId, $phoneChannel) {
         $result = [];
 
-        foreach (\KuntaAPI\Core\QTranslateHelper::getEnabledLanguages() as $lang) {
+        foreach (\KuntaAPI\Core\LocaleHelper::getEnabledLanguages() as $lang) {
           $result[$lang] = [
             'phoneNumbers' => [],
             'phoneChargeDescriptions' => [],
@@ -181,7 +181,7 @@
       public static function mapPrintableFormChannel($serviceId, $printableFormChannel) {
         $result = [];
 
-        foreach (\KuntaAPI\Core\QTranslateHelper::getEnabledLanguages() as $lang) {
+        foreach (\KuntaAPI\Core\LocaleHelper::getEnabledLanguages() as $lang) {
           $result[$lang] = [
             'channelUrls' => [],
             'attachments' => [],
@@ -252,7 +252,7 @@
       public static function mapServiceLocationChannel($serviceId, $serviceLocationChannel) {
         $result = [];
 
-        foreach (\KuntaAPI\Core\QTranslateHelper::getEnabledLanguages() as $lang) {
+        foreach (\KuntaAPI\Core\LocaleHelper::getEnabledLanguages() as $lang) {
           $result[$lang] = [
             'addresses' => [],
             'phoneChargeDescriptions' => [],
@@ -323,7 +323,7 @@
       public static function mapWebPageChannel($serviceId, $webPageChannel) {
         $result = [];
 
-        foreach (\KuntaAPI\Core\QTranslateHelper::getEnabledLanguages() as $lang) {
+        foreach (\KuntaAPI\Core\LocaleHelper::getEnabledLanguages() as $lang) {
           $result[$lang] = [
             'attachments' => [],
             'supportContacts' => [],

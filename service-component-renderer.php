@@ -19,6 +19,9 @@
       
       public function renderComponent($service, $lang, $type) {
         $componentData = ServiceComponentMapper::mapLocaleContents($service)[$lang];
+        if (!isset($componentData)) {
+          return '';
+        }
         
         switch ($type) {
           case 'description':
@@ -32,8 +35,12 @@
             break;
         }
       }
+      
       public function renderComponentParent($service, $lang, $type) {
         $componentData = ServiceComponentMapper::mapLocaleContents($service)[$lang];
+        if (!isset($componentData)) {
+          return '';
+        }
         
         switch ($type) {
           case 'description':
@@ -46,7 +53,8 @@
             error_log("unknown servicetype $type");
             break;
         }
-      } 
+      }
+      
     }  
   }
 ?>

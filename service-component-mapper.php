@@ -11,7 +11,7 @@
       public static function mapLocaleContents($service) {
         $result = [];
 
-        foreach (\KuntaAPI\Core\QTranslateHelper::getEnabledLanguages() as $lang) {
+        foreach (\KuntaAPI\Core\LocaleHelper::getEnabledLanguages() as $lang) {
           $result[$lang] = [];
         }
 
@@ -33,6 +33,7 @@
           $result[$language]['serviceId'] = $service->getId();
           $result[$language]['languages'] = $service->getLanguages();
         }
+        
         return $result;
       }   
     }  

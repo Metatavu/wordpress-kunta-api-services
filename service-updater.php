@@ -30,40 +30,42 @@
       
       public function poll() {
         $offset = get_option('kunta-api-sync-offset');
-      	if(empty($offset)) {
+      	if (empty($offset)) {
           $offset = 0;
         }
+        
       	$services = Loader::listOrganizationServices($offset, 10);
       	foreach ($services as $service) {
       	  $serviceId = $service->getId();
       	  $defaultPageId = $this->mapper->getDefaultPageId($serviceId);
       	  if (!$defaultPageId) {
-      	  	$title = \KuntaAPI\Core\QTranslateHelper::translateLocalizedValues($service->getNames());
-      	  	$content = $this->renderDefaultPage($service);
+      	  	$title = \KuntaAPI\Core\LocaleHelper::getDefaultValue($service->getNames());
+      	  	$content = $this->renderDefaultPage(\KuntaAPI\Core\LocaleHelper::getCurrentLanguage(), $service);
       	  	$pageId = $this->createPage($title, $content);
       	  	$this->mapper->setDefaultPageId($serviceId, $pageId);
       	  }
       	}
+      	
         if(count($services) == 0) {
           $offset = 0;
         } else {
           $offset += 10;
         }
+        
         update_option('kunta-api-sync-offset', $offset);
       }
       
-      private function renderDefaultPage($service) {
-      	return $this->renderer->renderDefault($service);
+      private function renderDefaultPage($lang, $service) {
+      	return $this->renderer->renderDefault($lang, $service);
       }
       
       private function createPage($title, $content) {
-        $post = wp_insert_post(array(
+        return wp_insert_post(array(
       	  'post_content' => $content,
       	  'post_title' => $title,
       	  'post_status' => 'draft',
       	  'post_type' => 'page'
       	));
-        return $post;
       }
 
     }
