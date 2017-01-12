@@ -1,9 +1,7 @@
 <?php
   namespace KuntaAPI\Services;
   
-  use KuntaAPI\Model\LocalizedValue;
   use KuntaAPI\Services\ServiceComponentMapper;
-  use KuntaAPI\Services\ServiceChannelMapper;
 		
   defined( 'ABSPATH' ) || die( 'No script kiddies please!' );
   
@@ -20,7 +18,7 @@
       }
       
       public function renderComponent($service, $lang, $type) {
-        $componentData = ServiceComponentMapper::renderLocaleContents($service)[$lang];
+        $componentData = ServiceComponentMapper::mapLocaleContents($service)[$lang];
         
         switch ($type) {
           case 'description':
@@ -33,7 +31,22 @@
             error_log("unknown servicetype $type");
             break;
         }
-      }   
+      }
+      public function renderComponentParent($service, $lang, $type) {
+        $componentData = ServiceComponentMapper::mapLocaleContents($service)[$lang];
+        
+        switch ($type) {
+          case 'description':
+            return $this->twig->render("service-description-parent.twig", $componentData);
+          case 'userInstruction':
+            return $this->twig->render("service-user-instructions-parent.twig", $componentData);
+          case 'languages':
+            return $this->twig->render("service-languages-parent.twig", $componentData);
+          default:
+            error_log("unknown servicetype $type");
+            break;
+        }
+      } 
     }  
   }
 ?>

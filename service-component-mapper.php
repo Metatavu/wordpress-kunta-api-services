@@ -1,8 +1,6 @@
 <?php
   namespace KuntaAPI\Services;
-  
-  use KuntaAPI\Model\LocalizedValue;
-		
+  	
   defined( 'ABSPATH' ) || die( 'No script kiddies please!' );
   
   require_once( __DIR__ . '/vendor/autoload.php');
@@ -10,11 +8,12 @@
   if (!class_exists( 'KuntaAPI\Services\ServiceComponentMapper' ) ) {
     class ServiceComponentMapper {
       
-      public static function renderLocaleContents($service) {
-        $result = [
-          'fi' => [],
-          'en' => []
-        ];
+      public static function mapLocaleContents($service) {
+        $result = [];
+
+        foreach (\KuntaAPI\Core\QTranslateHelper::getEnabledLanguages() as $lang) {
+          $result[$lang] = [];
+        }
 
       	foreach ($service->getDescriptions() as $serviceDescription) {
       	  switch ($serviceDescription->getType()) {
@@ -31,6 +30,7 @@
       	}
         
         foreach ($result as $language => $value) {
+          $result[$language]['serviceId'] = $service->getId();
           $result[$language]['languages'] = $service->getLanguages();
         }
         return $result;

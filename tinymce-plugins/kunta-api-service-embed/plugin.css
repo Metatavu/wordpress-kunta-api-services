@@ -1,0 +1,20 @@
+.mce-kunta-api-search-results {
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+.mce-kunta-api-search-results .mce-kunta-api-search-result-row {
+  margin-top:20px;
+  margin-bottom:20px;
+}
+.mce-kunta-api-search-result-row .mce-kunta-api-search-result-title {
+  margin-bottom:10px;
+  font-weight: bold;
+}
+i.mce-i-kunta_api_service_embed:before {
+  content: "\f12e";
+  font-family: FontAwesome;
+  font-size: 1.5em;
+  position: absolute;
+  top: 3px;
+  left: 2px;
+}

@@ -1,8 +1,6 @@
 <?php
   namespace KuntaAPI\Services;
-  
-  use KuntaAPI\Model\LocalizedValue;
-		
+  	
   defined( 'ABSPATH' ) || die( 'No script kiddies please!' );
   
   require_once( __DIR__ . '/vendor/autoload.php');
@@ -10,7 +8,7 @@
   if (!class_exists( 'KuntaAPI\Services\ServiceChannelMapper' ) ) {
     class ServiceChannelMapper {
       
-      private static function renderServiceChannelAttachment($serviceChannelAttachment) {
+      private static function mapServiceChannelAttachment($serviceChannelAttachment) {
         $results = [];
         $results['type'] = $serviceChannelAttachment->getType();
         $results['name'] = $serviceChannelAttachment->getName();
@@ -19,7 +17,7 @@
         return $results;
       }
       
-      private static function renderWebPage($webPage) {
+      private static function mapWebPage($webPage) {
         $results = [];
         $results['type'] = $webPage->getType();
         $results['value'] = $webPage->getValue();
@@ -28,7 +26,7 @@
         return $results;
       }
       
-      private static function renderServiceHour($serviceHour) {
+      private static function mapServiceHour($serviceHour) {
         $results = [];
         $results['validFrom'] = $serviceHour->getValidFrom();
         $results['validTo'] = $serviceHour->getValidTo();
@@ -39,7 +37,7 @@
         return $results;
       }
       
-      private static function renderSupportContact($supportContact) {
+      private static function mapSupportContact($supportContact) {
         $results = [];
         $results['email'] = $supportContact->getEmail();
         $results['phone'] = $supportContact->getPhone();
@@ -48,7 +46,7 @@
         return $results;
       }
       
-      private static function renderAddress($address, $lang) {
+      private static function mapAddress($address, $lang) {
         $results = [];
         $results['type'] = $address->getType();
         $results['postOfficeBox'] = $address->getPostOfficeBox();
@@ -68,19 +66,22 @@
         return $results;
       }
       
-      public static function renderElectronicChannel($serviceId, $electronicChannel) {
-        $result = [
-          'fi' => [
+      public static function mapElectronicChannel($serviceId, $electronicChannel) {
+        
+        $result = [];
+
+        foreach (\KuntaAPI\Core\QTranslateHelper::getEnabledLanguages() as $lang) {
+          $result[$lang] = [
             'attachments' => [],
             'serviceHours' => [],
             'webpages' => []
-          ],
-          'en' => [
-            'attachments' => [],
-            'serviceHours' => [],
-            'webpages' => []
-          ]
-        ];
+          ];
+        }
+        
+        if(!isset($electronicChannel)) {
+          error_log("service id $serviceId attempted to map null electronic channel");
+          return $result;
+        }
         
         foreach ($electronicChannel->getNames() as $electronicChannelName) {
       	  $result[$electronicChannelName->getLanguage()]['name'] = $electronicChannelName->getValue();
@@ -95,16 +96,16 @@
       	}
         
         foreach ($electronicChannel->getAttachments() as $serviceChannelAttachment) {
-          $result[$serviceChannelAttachment->getLanguage()]['attachments'][] = self::renderServiceChannelAttachment($serviceChannelAttachment);
+          $result[$serviceChannelAttachment->getLanguage()]['attachments'][] = self::mapServiceChannelAttachment($serviceChannelAttachment);
       	}
         
         foreach ($electronicChannel->getWebPages() as $serviceChannelWebPage) {
-          $result[$serviceChannelWebPage->getLanguage()]['webpages'][] = self::renderWebPage($serviceChannelWebPage);
+          $result[$serviceChannelWebPage->getLanguage()]['webpages'][] = self::mapWebPage($serviceChannelWebPage);
       	}
         
         $serviceHours = [];
         foreach ($electronicChannel->getServiceHours() as $serviceHour) {
-          $serviceHours[] = self::renderServiceHour($serviceHour);
+          $serviceHours[] = self::mapServiceHour($serviceHour);
         }
         
         foreach ($result as $lang => $value) {
@@ -118,22 +119,23 @@
         return $result;
       }
       
-      public static function renderPhoneChannel($serviceId, $phoneChannel) {
-        $result = [
-          'fi' => [
+      public static function mapPhoneChannel($serviceId, $phoneChannel) {
+        $result = [];
+
+        foreach (\KuntaAPI\Core\QTranslateHelper::getEnabledLanguages() as $lang) {
+          $result[$lang] = [
             'phoneNumbers' => [],
             'phoneChargeDescriptions' => [],
             'webpages' => [],
             'supportContacts' => []
-          ],
-          'en' => [
-            'phoneNumbers' => [],
-            'phoneChargeDescriptions' => [],
-            'webpages' => [],
-            'supportContacts' => []
-          ]
-        ];
-        
+          ];
+        }        
+
+        if(!isset($phoneChannel)) {
+          error_log("service id $serviceId attempted to map null phoneChannel");
+          return $result;
+        }
+
         foreach ($phoneChannel->getNames() as $phoneChannelName) {
       	  $result[$phoneChannelName->getLanguage()]['name'] = $phoneChannelName->getValue();
       	}
@@ -151,17 +153,17 @@
       	}
         
         foreach ($phoneChannel->getWebPages() as $serviceChannelWebPage) {
-          $result[$serviceChannelWebPage->getLanguage()]['webpages'][] = self::renderWebPage($serviceChannelWebPage);
+          $result[$serviceChannelWebPage->getLanguage()]['webpages'][] = self::mapWebPage($serviceChannelWebPage);
       	}
         
         foreach ($phoneChannel->getSupportContacts() as $serviceSupportContact) {
-          $result[$serviceSupportContact->getLanguage()]['supportContacts'][] = self::renderSupportContact($serviceSupportContact);
+          $result[$serviceSupportContact->getLanguage()]['supportContacts'][] = self::mapSupportContact($serviceSupportContact);
       	}
         
         
         $serviceHours = [];
         foreach ($phoneChannel->getServiceHours() as $serviceHour) {
-          $serviceHours[] = self::renderServiceHour($serviceHour);
+          $serviceHours[] = self::mapServiceHour($serviceHour);
         }
         
         foreach ($result as $lang => $value) {
@@ -176,21 +178,22 @@
         return $result;
       }
       
-      public static function renderPrintableFormChannel($serviceId, $printableFormChannel) {
-        $result = [
-          'fi' => [
+      public static function mapPrintableFormChannel($serviceId, $printableFormChannel) {
+        $result = [];
+
+        foreach (\KuntaAPI\Core\QTranslateHelper::getEnabledLanguages() as $lang) {
+          $result[$lang] = [
             'channelUrls' => [],
             'attachments' => [],
             'webpages' => [],
             'supportContacts' => []
-          ],
-          'en' => [
-            'channelUrls' => [],
-            'attachments' => [],
-            'webpages' => [],
-            'supportContacts' => []
-          ]
-        ];
+          ];
+        } 
+        
+        if(!isset($printableFormChannel)) {
+          error_log("service id $serviceId attempted to map null printableFormChannel");
+          return $result;
+        }
         
         foreach ($printableFormChannel->getNames() as $printableFormChannelName) {
       	  $result[$printableFormChannelName->getLanguage()]['name'] = $printableFormChannelName->getValue();
@@ -201,7 +204,7 @@
       	}
         
         foreach ($printableFormChannel->getSupportContacts() as $serviceSupportContact) {
-          $result[$serviceSupportContact->getLanguage()]['supportContacts'][] = self::renderSupportContact($serviceSupportContact);
+          $result[$serviceSupportContact->getLanguage()]['supportContacts'][] = self::mapSupportContact($serviceSupportContact);
       	}
         
         foreach ($printableFormChannel->getChannelUrls() as $serviceChannelUrl) {
@@ -213,24 +216,24 @@
       	}
         
         foreach ($printableFormChannel->getAttachments() as $serviceChannelAttachment) {
-          $result[$serviceChannelAttachment->getLanguage()]['attachments'][] = self::renderServiceChannelAttachment($serviceChannelAttachment);
+          $result[$serviceChannelAttachment->getLanguage()]['attachments'][] = self::mapServiceChannelAttachment($serviceChannelAttachment);
       	}
         
         foreach ($printableFormChannel->getWebPages() as $serviceChannelWebPage) {
-          $result[$serviceChannelWebPage->getLanguage()]['webpages'][] = self::renderWebPage($serviceChannelWebPage);
+          $result[$serviceChannelWebPage->getLanguage()]['webpages'][] = self::mapWebPage($serviceChannelWebPage);
       	}
         
         $printableFormChannelDeliveryAddress = $printableFormChannel->getDeliveryAddress();
         if(isset($printableFormChannelDeliveryAddress)) {
           foreach ($printableFormChannel->getDeliveryAddress()->getStreetAddress() as $serviceChannelAddressAddress) {
             $serviceChannelAddressLang = $serviceChannelAddressAddress->getLanguage();
-            $result[$serviceChannelAddressLang]['deliveryAddress'] = self::renderAddress($printableFormChannel->getDeliveryAddress(), $serviceChannelAddressLang);
+            $result[$serviceChannelAddressLang]['deliveryAddress'] = self::mapAddress($printableFormChannel->getDeliveryAddress(), $serviceChannelAddressLang);
           }
         }
         
         $serviceHours = [];
         foreach ($printableFormChannel->getServiceHours() as $serviceHour) {
-          $serviceHours[] = self::renderServiceHour($serviceHour);
+          $serviceHours[] = self::mapServiceHour($serviceHour);
         }
         
         foreach ($result as $lang => $value) {
@@ -246,22 +249,23 @@
         return $result;
       }
       
-      public static function renderServiceLocationChannel($serviceId, $serviceLocationChannel) {
-        $result = [
-          'fi' => [
+      public static function mapServiceLocationChannel($serviceId, $serviceLocationChannel) {
+        $result = [];
+
+        foreach (\KuntaAPI\Core\QTranslateHelper::getEnabledLanguages() as $lang) {
+          $result[$lang] = [
             'addresses' => [],
             'phoneChargeDescriptions' => [],
             'webpages' => [],
             'supportContacts' => []
-          ],
-          'en' => [
-            'addresses' => [],
-            'phoneChargeDescriptions' => [],
-            'webpages' => [],
-            'supportContacts' => []
-          ]
-        ];
-        
+          ];
+        } 
+
+        if(!isset($serviceLocationChannel)) {
+          error_log("service id $serviceId attempted to map null serviceLocationChannel");
+          return $result;
+        }
+
         foreach ($serviceLocationChannel->getNames() as $serviceLocationChannelName) {
       	  $result[$serviceLocationChannelName->getLanguage()]['name'] = $serviceLocationChannelName->getValue();
       	}
@@ -271,11 +275,11 @@
         }
         
         foreach ($serviceLocationChannel->getSupportContacts() as $serviceSupportContact) {
-          $result[$serviceSupportContact->getLanguage()]['supportContacts'][] = self::renderSupportContact($serviceSupportContact);
+          $result[$serviceSupportContact->getLanguage()]['supportContacts'][] = self::mapSupportContact($serviceSupportContact);
       	}
         
         foreach ($serviceLocationChannel->getWebPages() as $serviceChannelWebPage) {
-          $result[$serviceChannelWebPage->getLanguage()]['webpages'][] = self::renderWebPage($serviceChannelWebPage);
+          $result[$serviceChannelWebPage->getLanguage()]['webpages'][] = self::mapWebPage($serviceChannelWebPage);
       	}
         
         foreach ($serviceLocationChannel->getPhoneChargeDescriptions() as $serviceLocationChannelPhoneChargeDescription) {
@@ -285,13 +289,13 @@
         foreach ($serviceLocationChannel->getAddresses() as $serviceChannelAddress) {
           foreach ($serviceChannelAddress->getStreetAddress() as $serviceChannelAddressAddress) {
             $serviceChannelAddressLang = $serviceChannelAddressAddress->getLanguage();
-            $result[$serviceChannelAddressLang]['addresses'][] = self::renderAddress($serviceChannelAddress, $serviceChannelAddressLang);
+            $result[$serviceChannelAddressLang]['addresses'][] = self::mapAddress($serviceChannelAddress, $serviceChannelAddressLang);
           }
         }
         
         $serviceHours = [];
         foreach ($serviceLocationChannel->getServiceHours() as $serviceHour) {
-          $serviceHours[] = self::renderServiceHour($serviceHour);
+          $serviceHours[] = self::mapServiceHour($serviceHour);
         }
         
         foreach ($result as $lang => $value) {
@@ -316,20 +320,22 @@
         return $result;
       }
       
-      public static function renderWebPageChannel($serviceId, $webPageChannel) {
-        $result = [
-          'fi' => [
+      public static function mapWebPageChannel($serviceId, $webPageChannel) {
+        $result = [];
+
+        foreach (\KuntaAPI\Core\QTranslateHelper::getEnabledLanguages() as $lang) {
+          $result[$lang] = [
             'attachments' => [],
             'supportContacts' => [],
             'webpages' => []
-          ],
-          'en' => [
-            'attachments' => [],
-            'supportContacts' => [],
-            'webpages' => []
-          ]
-        ];
-        
+          ];
+        } 
+
+        if(!isset($webPageChannel)) {
+          error_log("service id $serviceId attempted to map null webPageChannel");
+          return $result;
+        }
+
         foreach ($webPageChannel->getNames() as $webPageChannelName) {
       	  $result[$webPageChannelName->getLanguage()]['name'] = $webPageChannelName->getValue();
       	}
@@ -343,20 +349,20 @@
       	}
         
         foreach ($webPageChannel->getAttachments() as $serviceChannelAttachment) {
-          $result[$serviceChannelAttachment->getLanguage()]['attachments'][] = self::renderServiceChannelAttachment($serviceChannelAttachment);
+          $result[$serviceChannelAttachment->getLanguage()]['attachments'][] = self::mapServiceChannelAttachment($serviceChannelAttachment);
       	}
         
         foreach ($webPageChannel->getSupportContacts() as $serviceSupportContact) {
-          $result[$serviceSupportContact->getLanguage()]['supportContacts'][] = self::renderSupportContact($serviceSupportContact);
+          $result[$serviceSupportContact->getLanguage()]['supportContacts'][] = self::mapSupportContact($serviceSupportContact);
       	}
         
         foreach ($webPageChannel->getWebPages() as $serviceChannelWebPage) {
-          $result[$serviceChannelWebPage->getLanguage()]['webpages'][] = self::renderWebPage($serviceChannelWebPage);
+          $result[$serviceChannelWebPage->getLanguage()]['webpages'][] = self::mapWebPage($serviceChannelWebPage);
       	}
         
         $serviceHours = [];
         foreach ($webPageChannel->getServiceHours() as $serviceHour) {
-          $serviceHours[] = self::renderServiceHour($serviceHour);
+          $serviceHours[] = self::mapServiceHour($serviceHour);
         }
         
         foreach ($result as $lang => $value) {
