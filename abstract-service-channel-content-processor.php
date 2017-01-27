@@ -40,7 +40,12 @@
             $article->removeAttribute('data-lang');
           }
           
-          $article->innertext = $this->renderServiceChannelContent($serviceId, $serviceChannelId, $lang);
+          if (!empty($serviceId) && !empty($serviceChannelId)) {
+            $article->innertext = $this->renderServiceChannelContent($serviceId, $serviceChannelId, $lang);
+          } else {
+          	$article->innertext = 'Failed to load service channel content';
+          }
+          
         }
         
       }
