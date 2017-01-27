@@ -85,6 +85,22 @@
         
         return static::$serviceLocationChannels[$id];
       }
+      
+      public static function listServiceLocationServiceChannels($serviceId) {
+      	try {
+          $serviceLocationChannels = \KuntaAPI\Core\Api::getServicesApi()->listServiceServiceLocationChannels($serviceId);
+          
+          foreach ($serviceLocationChannels as $serviceLocationChannel) {
+          	static::$serviceLocationChannels[$serviceLocationChannel->getId()] = $serviceLocationChannel;
+          }
+          
+          return $serviceLocationChannels;
+        } catch (\KuntaAPI\ApiException $e) {
+          error_log("findServiceLocationServiceChannel failed with following message: " . $e->getMessage());
+        }
+        
+        return [];
+      }
     
       public static function findWebPageServiceChannel($serviceId, $id) {
         if(!isset(static::$webPageChannels[$id])) {

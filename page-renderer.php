@@ -17,12 +17,8 @@
       public function __construct() {
         $this->twig = new \Twig_Environment(new \Twig_Loader_Filesystem( __DIR__ . '/templates'));
       }
-      
-      public function renderDefault($lang, $service) {
-        return $this->renderLocaleContents($lang, $service); 
-      }
-      
-      private function renderLocaleContents($lang, $service) {
+
+      public function renderServicePage($lang, $service) {
         $serviceId = $service->getId();
         
         $componentDatas = ServiceComponentMapper::mapLocaleContents($service);
@@ -74,11 +70,16 @@
           }
         }
         
-        return $this->renderLocaleContent($serviceId, $componentDatas[$lang]);
+        return $this->renderServiceContent($serviceId, $componentDatas[$lang]);
+      }
+
+      public function renderLocationChannelPage($lang, $serviceId, $serviceLocationChannel) {
+      	$languageData = ServiceChannelMapper::mapServiceLocationChannel($serviceId, $serviceLocationChannel)[$lang];
+      	return $this->renderServiceLocationChannelContent($serviceId, $channelId, $languageData);
       }
       
-      private function renderLocaleContent($serviceId, $languageData) {
-        return $this->twig->render("service-default-layout.twig", [
+      private function renderServiceContent($serviceId, $languageData) {
+        return $this->twig->render("service-page.twig", [
           'serviceId' => $serviceId,
           'description' => $languageData['description'],
           'userInstruction' => $languageData['userInstruction'],
@@ -89,6 +90,15 @@
           'serviceLocationChannels' => $languageData['serviceLocationChannels'],
           'webPageChannels' => $languageData['webPageChannels']
         ]);
+      }
+      
+      private function renderServiceLocationChannelContent($serviceId, $serviceLocationChannelId, $languageData) {
+      	return $this->twig->render('service-location-channel-page.twig', [
+      	  'serviceId' => $serviceId,
+      	  'serviceLocationChannelId' => $serviceLocationChannelId,
+      	  'title' => $languageData['title'],
+      	  'description' => $languageData['description']
+      	]);
       }
       
     }  

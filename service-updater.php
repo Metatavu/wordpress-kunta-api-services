@@ -23,12 +23,14 @@
       }
       
       public function startPolling() {
-        if (! wp_next_scheduled ( 'kunta_api_service_updater_poll' )) {
+      	if (! wp_next_scheduled ( 'kunta_api_service_updater_poll' )) {
           wp_schedule_event(time(), 'Minutely', 'kunta_api_service_updater_poll');
         }
       }
       
       public function poll() {
+      	$locationChannelsPath = \KuntaAPI\Core\CoreSettings::getValue('locationChannelsPath');
+      	
         $offset = get_option('kunta-api-sync-offset');
       	if (empty($offset)) {
           $offset = 0;
@@ -36,14 +38,12 @@
         
       	$services = Loader::listOrganizationServices($offset, 10);
       	foreach ($services as $service) {
-      	  $serviceId = $service->getId();
-      	  $defaultPageId = $this->mapper->getDefaultPageId($serviceId);
-      	  if (!$defaultPageId) {
-      	  	$title = \KuntaAPI\Core\LocaleHelper::getDefaultValue($service->getNames());
-      	  	$content = $this->renderDefaultPage(\KuntaAPI\Core\LocaleHelper::getCurrentLanguage(), $service);
-      	  	$pageId = $this->createPage($title, $content);
-      	  	$this->mapper->setDefaultPageId($serviceId, $pageId);
+      	  if (!empty($locationChannelsPath)) {
+      	    $locationChanneldParentPageId = $this->resolveLocationChannelParentPageId($locationChannelsPath);
+      	  	$this->updateServiceLocationChannels($locationChanneldParentPageId, $service->getId());
       	  }
+      	  
+      	  $this->updateService($service);
       	}
       	
         if(count($services) == 0) {
@@ -55,16 +55,76 @@
         update_option('kunta-api-sync-offset', $offset);
       }
       
-      private function renderDefaultPage($lang, $service) {
-      	return $this->renderer->renderDefault($lang, $service);
+      private function resolveLocationChannelParentPageId($path) {
+      	$slugs = explode('/', $path);
+      	$pageSlugs = [];
+      	$parentId = 0;
+      	
+      	foreach ($slugs as $slug) {
+      	  if (!empty($slug)) {
+      		$pageSlugs[] = $slug;
+      	    $pagePath = implode('/', $pageSlugs);
+      	    $page = get_page_by_path($pagePath);
+      	    if (!isset($page)) {
+      	  	  $parentId = wp_insert_post(array(
+      	  	    'post_type' => 'page',
+      	  	  	'post_status' => 'publish',
+      	  	    'post_title' => $slug,
+      	  	    'post_parent' => $parentId
+      	  	  ));
+      	    } else {
+      	  	  $parentId = $page->ID;
+      	    }
+      	  }
+      	}
+      	
+      	return $parentId;
       }
       
-      private function createPage($title, $content) {
+      private function updateService($service) {
+      	$serviceId = $service->getId();
+      	$defaultPageId = $this->mapper->getDefaultPageId($serviceId);
+      	if (!$defaultPageId) {
+      	  $title = \KuntaAPI\Core\LocaleHelper::getDefaultValue($service->getNames());
+      	  $content = $this->renderDefaultPage(\KuntaAPI\Core\LocaleHelper::getCurrentLanguage(), $service);
+      	  $pageId = $this->createPage(0, $title, $content);
+      	  $this->mapper->setDefaultPageId($serviceId, $pageId);
+      	}
+      }
+      
+      private function updateServiceLocationChannels($parentPageId, $serviceId) {
+      	$serviceLocationChannels = Loader::listServiceLocationServiceChannels($serviceId);
+      	foreach ($serviceLocationChannels as $serviceLocationChannel) {
+      	  $this->updateServiceLocationChannel($parentPageId, $serviceId, $serviceLocationChannel);
+        }
+      }
+      
+      private function updateServiceLocationChannel($parentPageId, $serviceId, $serviceLocationChannel) {
+      	$serviceLocationChannelId = $serviceLocationChannel->getId();
+      	$defaultPageId = $this->mapper->getDefaultPageId($serviceLocationChannelId);
+      	if (!$defaultPageId) {
+      	  $title = \KuntaAPI\Core\LocaleHelper::getDefaultValue($serviceLocationChannel->getNames());
+      	  $content = $this->renderServiceLocationChannelPage(\KuntaAPI\Core\LocaleHelper::getCurrentLanguage(), $serviceId, $serviceLocationChannel);
+      	  $pageId = $this->createPage($parentPageId, $title, $content);
+      	  $this->mapper->setDefaultPageId($serviceLocationChannelId, $pageId);
+      	}
+      }
+      
+      private function renderDefaultPage($lang, $service) {
+      	return $this->renderer->renderServicePage($lang, $service);
+      }
+      
+      private function renderServiceLocationChannelPage($lang, $serviceId, $serviceLocationChannel) {
+      	return $this->renderer->renderLocationChannelPage($lang, $serviceId, $serviceLocationChannel);
+      }
+      
+      private function createPage($parentPageId, $title, $content) {
         return wp_insert_post(array(
       	  'post_content' => $content,
       	  'post_title' => $title,
       	  'post_status' => 'draft',
-      	  'post_type' => 'page'
+      	  'post_type' => 'page',
+          'post_parent' => $parentPageId	
       	));
       }
 
