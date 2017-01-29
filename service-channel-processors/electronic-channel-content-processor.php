@@ -1,7 +1,7 @@
 <?php
   namespace KuntaAPI\Services;
   
-  require_once( __DIR__ . '/vendor/autoload.php');
+  require_once( __DIR__ . '/../vendor/autoload.php');
   require_once( __DIR__ . '/abstract-service-channel-content-processor.php');
     
   if (!defined('ABSPATH')) { 

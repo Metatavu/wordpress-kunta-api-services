@@ -16,13 +16,14 @@ require_once( __DIR__ . '/twig-extension.php');
 require_once( __DIR__ . '/service-updater.php');
 require_once( __DIR__ . '/service-content-processor.php');
 require_once( __DIR__ . '/service-channel-mapper.php');
-require_once( __DIR__ . '/electronic-channel-content-processor.php');
 require_once( __DIR__ . '/service-channel-renderer.php');
-require_once( __DIR__ . '/phone-channel-content-processor.php');
-require_once( __DIR__ . '/printable-form-channel-content-processor.php');
-require_once( __DIR__ . '/service-location-channel-content-processor.php');
-require_once( __DIR__ . '/webpage-channel-content-processor.php');
 require_once( __DIR__ . '/tinymce.php');
 require_once( __DIR__ . '/ckeditor.php');
 require_once( __DIR__ . '/service-search-ajax.php');
+require_once( __DIR__ . '/service-channel-processors/electronic-channel-content-processor.php');
+require_once( __DIR__ . '/service-channel-processors/phone-channel-content-processor.php');
+require_once( __DIR__ . '/service-channel-processors/printable-form-channel-content-processor.php');
+require_once( __DIR__ . '/service-channel-processors/service-location-channel-content-processor.php');
+require_once( __DIR__ . '/service-channel-processors/webpage-channel-content-processor.php');
+
 ?>

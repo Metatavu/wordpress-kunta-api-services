@@ -1,4 +1,6 @@
+{% if languages %}
 <h3>Kielet, joilla palvelu on saatavilla</h3>
 <article data-type="kunta-api-service-component" data-component="languages" data-service-id="{{ serviceId }}">
 {% include 'service-components/service-languages.twig' %}
 </article>
+{% endif %}

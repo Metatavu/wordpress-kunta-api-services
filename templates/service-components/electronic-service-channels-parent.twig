@@ -1,0 +1,8 @@
+{% if printableFormChannels %}
+<h3>Lomake palvelukanavat</h3>
+{% for printableFormChannel in printableFormChannels %}
+  <article data-type="kunta-api-service-printable-form-channel" data-service-id="{{ serviceId }}" data-service-channel-id="{{ printableFormChannel.serviceChannelId }}">
+  {% include 'service-components/printable-form-service-channel.twig' with printableFormChannel only %}
+  </article>
+{% endfor %}  
+{% endif %}

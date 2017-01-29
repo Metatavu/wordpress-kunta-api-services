@@ -22,7 +22,13 @@
       <tbody>
         {% for serviceHour in serviceLocationChannel.serviceHours %}
           <tr>
-            <td>{{ serviceHour.days|first|shortDay }} - {{ serviceHour.days|last|shortDay }}</td>
+            <td>
+              {% if serviceHour.days|first == serviceHour.days|last %}
+              {{ serviceHour.days|first|shortDay }}
+              {% else %}
+              {{ serviceHour.days|first|shortDay }} - {{ serviceHour.days|last|shortDay }}
+              {% endif %}
+            </td>
             <td>{% if serviceHour.opens and  serviceHour.closes %}{{ serviceHour.opens }} - {{ serviceHour.closes }}{% endif %}</td>
             <td>{% if serviceHour.status == 'OPEN' %}Avoinna{% else %}Suljettu{% endif %}</td>
             {% if additionalInfo %}

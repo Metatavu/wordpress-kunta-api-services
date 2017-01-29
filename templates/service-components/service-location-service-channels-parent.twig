@@ -1,0 +1,8 @@
+{% if serviceLocationChannels %}
+<h3>Asiointipisteet</h3>
+{% for serviceLocationChannel in serviceLocationChannels %}
+  <article data-type="kunta-api-service-location-channel" data-service-id="{{ serviceId }}" data-service-channel-id="{{ serviceLocationChannel.serviceChannelId }}">
+  {% include 'service-components/service-location-service-channel.twig' with serviceLocationChannel only %}
+  </article>
+{% endfor %}  
+{% endif %}

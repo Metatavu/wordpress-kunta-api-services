@@ -1,0 +1,5 @@
+<h4>{{ name }}</h4>
+<p>{{ description|nl2br }}</p>
+{% for channelUrl in channelUrls %}
+  <a href="{{ channelUrl }}">Lataa lomake</a>
+{% endfor %}
