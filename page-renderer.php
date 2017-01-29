@@ -16,8 +16,9 @@
       
       public function __construct() {
         $this->twig = new \Twig_Environment(new \Twig_Loader_Filesystem( __DIR__ . '/templates'));
+        $this->twig->addExtension(new TwigExtension());
       }
-
+      
       public function renderServicePage($lang, $service) {
         $serviceId = $service->getId();
         
@@ -57,7 +58,7 @@
         if(isset($service['serviceLocationChannels'])) {
           foreach ($service['serviceLocationChannels'] as $serviceLocationChannel) {
             foreach (ServiceChannelMapper::mapServiceLocationChannel($serviceId, $serviceLocationChannel) as $language => $serviceLocationChannelData) {
-             $componentDatas[$language]['serviceLocationChannels'][] = $serviceLocationChannelData;
+              $componentDatas[$language]['serviceLocationChannels'][] = $serviceLocationChannelData;
             }
           }
         }
@@ -74,12 +75,15 @@
       }
 
       public function renderLocationChannelPage($lang, $serviceId, $serviceLocationChannel) {
-      	$languageData = ServiceChannelMapper::mapServiceLocationChannel($serviceId, $serviceLocationChannel)[$lang];
-      	return $this->renderServiceLocationChannelContent($serviceId, $channelId, $languageData);
+      	return $this->twig->render('pages/service-location-channel.twig', [
+          'serviceId' => $serviceId,
+      	  'serviceLocationChannel' => $serviceLocationChannel,
+      	  'lang' => $lang
+      	]);
       }
       
       private function renderServiceContent($serviceId, $languageData) {
-        return $this->twig->render("service-page.twig", [
+        return $this->twig->render("pages/service.twig", [
           'serviceId' => $serviceId,
           'description' => $languageData['description'],
           'userInstruction' => $languageData['userInstruction'],
@@ -90,15 +94,6 @@
           'serviceLocationChannels' => $languageData['serviceLocationChannels'],
           'webPageChannels' => $languageData['webPageChannels']
         ]);
-      }
-      
-      private function renderServiceLocationChannelContent($serviceId, $serviceLocationChannelId, $languageData) {
-      	return $this->twig->render('service-location-channel-page.twig', [
-      	  'serviceId' => $serviceId,
-      	  'serviceLocationChannelId' => $serviceLocationChannelId,
-      	  'title' => $languageData['title'],
-      	  'description' => $languageData['description']
-      	]);
       }
       
     }  

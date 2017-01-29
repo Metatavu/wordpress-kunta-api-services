@@ -12,6 +12,7 @@ define('KUNTA_API_SERVICES_I18N_DOMAIN', 'kunta_api_services');
 
 require_once( __DIR__ . '/activator.php');
 require_once( __DIR__ . '/settings.php');
+require_once( __DIR__ . '/twig-extension.php');
 require_once( __DIR__ . '/service-updater.php');
 require_once( __DIR__ . '/service-content-processor.php');
 require_once( __DIR__ . '/service-channel-mapper.php');

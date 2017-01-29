@@ -25,11 +25,11 @@
         
         switch ($type) {
           case 'description':
-            return $this->twig->render("service-description.twig", $componentData);
+            return $this->twig->render("service-components/service-description.twig", $componentData);
           case 'userInstruction':
-            return $this->twig->render("service-user-instructions.twig", $componentData);
+            return $this->twig->render("service-components/service-user-instructions.twig", $componentData);
           case 'languages':
-            return $this->twig->render("service-languages.twig", $componentData);
+            return $this->twig->render("service-components/service-languages.twig", $componentData);
           default:
             error_log("unknown servicetype $type");
             break;
@@ -44,11 +44,11 @@
         
         switch ($type) {
           case 'description':
-            return $this->twig->render("service-description-parent.twig", $componentData);
+            return $this->twig->render("service-components/service-description-parent.twig", $componentData);
           case 'userInstruction':
-            return $this->twig->render("service-user-instructions-parent.twig", $componentData);
+            return $this->twig->render("service-components/service-user-instructions-parent.twig", $componentData);
           case 'languages':
-            return $this->twig->render("service-languages-parent.twig", $componentData);
+            return $this->twig->render("service-components/service-languages-parent.twig", $componentData);
           default:
             error_log("unknown servicetype $type");
             break;
