@@ -15,11 +15,15 @@
       
       public function __construct() {
         $this->twig = new \Twig_Environment(new \Twig_Loader_Filesystem( __DIR__ . '/templates'));
+        $this->twig->addExtension(new TwigExtension());
       }
       
       public function renderElectronicChannel($serviceId, $electronicChannel, $lang) {
-        $channelData = ServiceChannelMapper::mapElectronicChannel($serviceId, $electronicChannel)[$lang];
-        return $this->twig->render("service-components/electronic-service-channel.twig", $channelData);
+        return $this->twig->render("service-components/electronic-service-channel.twig", [
+          'serviceId' => $serviceId,
+          'lang' => $lang,
+          'electronicChannel' => $electronicChannel
+        ]);
       }
       
       public function renderPhoneChannel($serviceId, $phoneChannel, $lang) {

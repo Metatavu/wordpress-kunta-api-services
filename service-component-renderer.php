@@ -15,6 +15,7 @@
       
       public function __construct() {
         $this->twig = new \Twig_Environment(new \Twig_Loader_Filesystem( __DIR__ . '/templates'));
+        $this->twig->addExtension(new TwigExtension());
       }
       
       public function renderComponent($service, $lang, $type) {

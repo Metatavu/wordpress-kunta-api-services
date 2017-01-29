@@ -24,19 +24,10 @@
         
         $componentDatas = ServiceComponentMapper::mapLocaleContents($service);
         foreach ($componentDatas as $language => $value) {
-          $componentDatas[$language]['electronicChannels'] = [];
           $componentDatas[$language]['phoneChannels'] = [];
           $componentDatas[$language]['printableFormChannels'] = [];
           $componentDatas[$language]['serviceLocationChannels'] = [];
           $componentDatas[$language]['webPageChannels'] = [];
-        }
-        
-        if (isset($service['electronicChannels'])) {
-          foreach ($service['electronicChannels'] as $electronicChannel) {
-            foreach (ServiceChannelMapper::mapElectronicChannel($serviceId, $electronicChannel) as $language => $electronicChannelData) {
-             $componentDatas[$language]['electronicChannels'][] = $electronicChannelData;
-            }
-          }
         }
         
         if(isset($service['phoneChannels'])) {
@@ -71,7 +62,20 @@
           }
         }
         
-        return $this->renderServiceContent($serviceId, $componentDatas[$lang]);
+        $languageData = $componentDatas[$lang];
+        
+        return $this->twig->render("pages/service.twig", [
+          'serviceId' => $serviceId,
+          'service' => $service,
+	      'electronicChannels' => $service['electronicChannels'],
+          'description' => $languageData['description'],
+          'userInstruction' => $languageData['userInstruction'],
+          'languages' => $languageData['languages'],
+          'phoneChannels' => $languageData['phoneChannels'],
+          'printableFormChannels' => $languageData['printableFormChannels'],
+          'serviceLocationChannels' => $languageData['serviceLocationChannels'],
+          'webPageChannels' => $languageData['webPageChannels']
+        ]);
       }
 
       public function renderLocationChannelPage($lang, $serviceId, $serviceLocationChannel) {
@@ -80,20 +84,6 @@
       	  'serviceLocationChannel' => $serviceLocationChannel,
       	  'lang' => $lang
       	]);
-      }
-      
-      private function renderServiceContent($serviceId, $languageData) {
-        return $this->twig->render("pages/service.twig", [
-          'serviceId' => $serviceId,
-          'description' => $languageData['description'],
-          'userInstruction' => $languageData['userInstruction'],
-          'languages' => $languageData['languages'],
-          'electronicChannels' => $languageData['electronicChannels'],
-          'phoneChannels' => $languageData['phoneChannels'],
-          'printableFormChannels' => $languageData['printableFormChannels'],
-          'serviceLocationChannels' => $languageData['serviceLocationChannels'],
-          'webPageChannels' => $languageData['webPageChannels']
-        ]);
       }
       
     }  
