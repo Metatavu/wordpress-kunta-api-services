@@ -1,0 +1,4 @@
+{% if serviceLocationChannel.names|localizedValue(lang) %}
+<h3>Nimi</h3>
+<article data-type="kunta-api-service-location-component" data-component="name" data-service-id="{{ serviceId }}" data-service-channel-id="{{ serviceLocationChannel.id }}" data-lang="{{ lang }}">{% include 'service-location-components/name.twig' %}</article>
+{% endif %}

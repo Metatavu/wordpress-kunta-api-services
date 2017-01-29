@@ -1,0 +1,11 @@
+{% if serviceLocationChannel.webPages %}
+  <h3>Verkkosivut</h3>
+  {% for webPage in serviceLocationChannel.webPages %}
+    {% if webPage.language == lang %}
+    <a href="{{ webPage.url }}" target="_blank">{{ webPage.value }}</a><br/>
+    {% endif %}
+    {% if webPage.description %}
+    <p>{{ webPage.description }}</p>
+    {% endif %}
+  {% endfor %}
+{% endif %}

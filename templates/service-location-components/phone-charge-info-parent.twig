@@ -1,0 +1,4 @@
+{% if serviceLocationChannel.phoneChargeDescriptions|localizedValue(lang) %}
+<h3>Puhelun hintatiedot</h3>
+<article data-type="kunta-api-service-location-component" data-component="phone-charge-info" data-service-id="{{ serviceId }}" data-service-channel-id="{{ serviceLocationChannel.id }}" data-lang="{{ lang }}">{% include 'service-location-components/phone-charge-info.twig' %}</article>
+{% endif %}

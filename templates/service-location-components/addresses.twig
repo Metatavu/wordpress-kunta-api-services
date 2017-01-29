@@ -1,0 +1,41 @@
+{% for address in serviceLocationChannel.addresses %}
+  {% spaceless %}
+    {% if address.type == "Visiting" %}
+      <h3>Käyntiosoite</h3>
+    {% elseif address.type == "Postal" %}
+      <h3>Postiosoite</h3>
+    {% endif %}
+    {% if address.streetAddress %}
+      {{ address.streetAddress|localizedValue(lang)|nl2br }}
+    {% endif %}
+    {% if address.streetAddress and (address.postalCode or address.postOffice or address.postOfficeBox) %}
+      <br/>
+    {% endif %}
+    {% if address.postalCode or address.postOffice or address.postOfficeBox %}
+      {% if address.postalCode %}
+        <span>{{ address.postalCode }}</span>
+      {% endif %}
+      
+      {% if address.postalCode and address.postOffice %}
+        <span>&nbsp;</span>
+      {% endif %}
+      
+      {% if address.postOffice %}
+        <span>{{ address.postOffice }}</span>
+      {% endif %}
+      
+      {% if address.postalCode or address.postOffice %}
+        <span>&nbsp;</span>
+      {% endif %}
+      
+      {% if address.postOfficeBox %}
+        <span>{{ address.postOfficeBox }}</span>
+      {% endif %}
+    {% endif %}
+  
+    {% if address.country == 'FI' %}
+      <br/>
+      SUOMI
+    {% endif %}
+  {% endspaceless %}
+{% endfor %}

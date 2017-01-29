@@ -1,0 +1,3 @@
+{% if serviceLocationChannel.serviceHours %}
+<article data-type="kunta-api-service-location-component" data-component="servicehours" data-service-id="{{ serviceId }}" data-service-channel-id="{{ serviceLocationChannel.id }}" data-lang="{{ lang }}">{% include 'service-location-components/servicehours.twig' %}</article>
+{% endif %}

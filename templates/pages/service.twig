@@ -1,20 +1,20 @@
 {% if description %}
-{% include 'service-description-parent.twig' %}
+{% include 'service-components/service-description-parent.twig' %}
 {% endif %}
 
 {% if userInstruction %}
-{% include 'service-user-instructions-parent.twig' %}
+{% include 'service-components/service-user-instructions-parent.twig' %}
 {% endif %}
 
 {% if languages %}
-{% include 'service-languages-parent.twig' %}
+{% include 'service-components/service-languages-parent.twig' %}
 {% endif %}
 
 {% if electronicChannels %}
 <h3>Sähköiset palvelukanavat</h3>
 {% for electronicChannel in electronicChannels %}
   <article data-type="kunta-api-service-electronic-channel" data-service-id="{{ serviceId }}" data-service-channel-id="{{ electronicChannel.serviceChannelId }}">
-  {% include 'electronic-service-channel.twig' with electronicChannel only %}
+  {% include 'service-components/electronic-service-channel.twig' with electronicChannel only %}
   </article>
 {% endfor %}  
 {% endif %}
@@ -23,7 +23,7 @@
 <h3>Puhelin palvelukanavat</h3>
 {% for phoneChannel in phoneChannels %}
   <article data-type="kunta-api-service-phone-channel" data-service-id="{{ serviceId }}" data-service-channel-id="{{ phoneChannel.serviceChannelId }}">
-  {% include 'phone-service-channel.twig' with phoneChannel only %}
+  {% include 'service-components/phone-service-channel.twig' with phoneChannel only %}
   </article>
 {% endfor %}  
 {% endif %}
@@ -32,7 +32,7 @@
 <h3>Lomake palvelukanavat</h3>
 {% for printableFormChannel in printableFormChannels %}
   <article data-type="kunta-api-service-printable-form-channel" data-service-id="{{ serviceId }}" data-service-channel-id="{{ printableFormChannel.serviceChannelId }}">
-  {% include 'printable-form-service-channel.twig' with printableFormChannel only %}
+  {% include 'service-components/printable-form-service-channel.twig' with printableFormChannel only %}
   </article>
 {% endfor %}  
 {% endif %}
@@ -41,7 +41,7 @@
 <h3>Asiointipisteet</h3>
 {% for serviceLocationChannel in serviceLocationChannels %}
   <article data-type="kunta-api-service-location-channel" data-service-id="{{ serviceId }}" data-service-channel-id="{{ serviceLocationChannel.serviceChannelId }}">
-  {% include 'service-location-service-channel.twig' with serviceLocationChannel only %}
+  {% include 'service-components/service-location-service-channel.twig' with serviceLocationChannel only %}
   </article>
 {% endfor %}  
 {% endif %}
@@ -50,7 +50,7 @@
 <h3>Verkkosivut</h3>
 {% for webPageChannel in webPageChannels %}
   <article data-type="kunta-api-service-webpage-channel" data-service-id="{{ serviceId }}" data-service-channel-id="{{ webPageChannel.serviceChannelId }}">
-  {% include 'webpage-service-channel.twig' with webPageChannel only %}
+  {% include 'service-components/webpage-service-channel.twig' with webPageChannel only %}
   </article>
 {% endfor %}  
 {% endif %}
