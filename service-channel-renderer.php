@@ -35,8 +35,11 @@
       }
       
       public function renderPrintableFormChannel($serviceId, $printableFormChannel, $lang) {
-        $channelData = ServiceChannelMapper::mapPrintableFormChannel($serviceId, $printableFormChannel)[$lang];
-        return $this->twig->render("service-components/printable-form-service-channel.twig", $channelData);
+      	return $this->twig->render("service-components/printable-form-service-channel.twig", [
+      	  'serviceId' => $serviceId,
+      	  'lang' => $lang,
+      	  'printableFormChannel' => $printableFormChannel
+      	]);
       }
       
       public function renderServiceLocationChannel($serviceId, $serviceLocationChannel, $lang) {

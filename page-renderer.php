@@ -24,17 +24,8 @@
         
         $componentDatas = ServiceComponentMapper::mapLocaleContents($service);
         foreach ($componentDatas as $language => $value) {
-          $componentDatas[$language]['printableFormChannels'] = [];
           $componentDatas[$language]['serviceLocationChannels'] = [];
           $componentDatas[$language]['webPageChannels'] = [];
-        }
-        
-        if(isset($service['printableFormChannels'])) {
-          foreach ($service['printableFormChannels'] as $printableFormChannel) {
-            foreach (ServiceChannelMapper::mapPrintableFormChannel($serviceId, $printableFormChannel) as $language => $printableFormChannelData) {
-             $componentDatas[$language]['printableFormChannels'][] = $printableFormChannelData;
-            }
-          }
         }
         
         if(isset($service['serviceLocationChannels'])) {
@@ -62,7 +53,7 @@
           'userInstruction' => $languageData['userInstruction'],
           'languages' => $languageData['languages'],
           'phoneChannels' => $service['phoneChannels'],
-          'printableFormChannels' => $languageData['printableFormChannels'],
+          'printableFormChannels' => $service['printableFormChannels'],
           'serviceLocationChannels' => $languageData['serviceLocationChannels'],
           'webPageChannels' => $languageData['webPageChannels']
         ]);

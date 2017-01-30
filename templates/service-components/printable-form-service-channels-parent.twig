@@ -1,5 +1,8 @@
-<h4>{{ name }}</h4>
-<p>{{ description|nl2br }}</p>
-{% for channelUrl in channelUrls %}
-  <a href="{{ channelUrl }}">Lataa lomake</a>
-{% endfor %}
+{% if printableFormChannels %}
+<h3>Lomakkeet</h3>
+{% for printableFormChannel in printableFormChannels %}
+  <article data-type="kunta-api-service-printable-form-channel" data-service-id="{{ serviceId }}" data-service-channel-id="{{ printableFormChannel.id }}">
+  {% include 'service-components/printable-form-service-channel.twig' %}
+  </article>
+{% endfor %}  
+{% endif %}
