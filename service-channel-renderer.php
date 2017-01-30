@@ -27,8 +27,11 @@
       }
       
       public function renderPhoneChannel($serviceId, $phoneChannel, $lang) {
-        $channelData = ServiceChannelMapper::mapPhoneChannel($serviceId, $phoneChannel)[$lang];
-        return $this->twig->render("service-components/phone-service-channel.twig", $channelData);
+        return $this->twig->render("service-components/phone-service-channel.twig", [
+          'serviceId' => $serviceId, 
+          'phoneChannel' => $phoneChannel,
+          'lang' =>	$lang
+        ]);
       }
       
       public function renderPrintableFormChannel($serviceId, $printableFormChannel, $lang) {

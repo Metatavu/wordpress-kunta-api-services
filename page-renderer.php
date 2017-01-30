@@ -24,18 +24,9 @@
         
         $componentDatas = ServiceComponentMapper::mapLocaleContents($service);
         foreach ($componentDatas as $language => $value) {
-          $componentDatas[$language]['phoneChannels'] = [];
           $componentDatas[$language]['printableFormChannels'] = [];
           $componentDatas[$language]['serviceLocationChannels'] = [];
           $componentDatas[$language]['webPageChannels'] = [];
-        }
-        
-        if(isset($service['phoneChannels'])) {
-          foreach ($service['phoneChannels'] as $phoneChannel) {
-            foreach (ServiceChannelMapper::mapPhoneChannel($serviceId, $phoneChannel) as $language => $phoneChannelData) {
-             $componentDatas[$language]['phoneChannels'][] = $phoneChannelData;
-            }
-          }
         }
         
         if(isset($service['printableFormChannels'])) {
@@ -63,7 +54,6 @@
         }
         
         $languageData = $componentDatas[$lang];
-        
         return $this->twig->render("pages/service.twig", [
           'serviceId' => $serviceId,
           'service' => $service,
@@ -71,7 +61,7 @@
           'description' => $languageData['description'],
           'userInstruction' => $languageData['userInstruction'],
           'languages' => $languageData['languages'],
-          'phoneChannels' => $languageData['phoneChannels'],
+          'phoneChannels' => $service['phoneChannels'],
           'printableFormChannels' => $languageData['printableFormChannels'],
           'serviceLocationChannels' => $languageData['serviceLocationChannels'],
           'webPageChannels' => $languageData['webPageChannels']
