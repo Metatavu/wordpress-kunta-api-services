@@ -43,8 +43,11 @@
       }
       
       public function renderServiceLocationChannel($serviceId, $serviceLocationChannel, $lang) {
-        $channelData = ServiceChannelMapper::mapServiceLocationChannel($serviceId, $serviceLocationChannel)[$lang];
-        return $this->twig->render("service-components/service-location-service-channel.twig", $channelData);
+      	return $this->twig->render("service-components/service-location-service-channel.twig", [
+      	  'serviceId' => $serviceId,
+      	  'lang' => $lang,
+      	  'serviceLocationChannel' => $serviceLocationChannel
+      	]);
       }
       
       public function renderWebPageChannel($serviceId, $webPageChannel, $lang) {

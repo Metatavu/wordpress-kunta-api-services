@@ -9,8 +9,10 @@ if (!class_exists( 'KuntaAPI\Services\TwigExtension' ) ) {
   class TwigExtension extends \Twig_Extension {
      
     private $dayMap;
+    private $mapper;
 
     public function __construct() {
+      $this->mapper = new \KuntaAPI\Services\Mapper();
       $this->dayMap = [
           '0' => 'Su',
           '1' => 'Ma',
@@ -24,8 +26,9 @@ if (!class_exists( 'KuntaAPI\Services\TwigExtension' ) ) {
       
     public function getFilters() {
       return [
-          new \Twig_SimpleFilter('localizedValue', array($this, 'localizedValueFilter')),
-          new \Twig_SimpleFilter('shortDay', array($this, 'shortDayFilter'))
+        new \Twig_SimpleFilter('localizedValue', array($this, 'localizedValueFilter')),
+        new \Twig_SimpleFilter('shortDay', array($this, 'shortDayFilter')),
+        new \Twig_SimpleFilter('serviceLocationPath', array($this, 'serviceLocationPathFilter'))
       ];
     }
       
@@ -44,6 +47,16 @@ if (!class_exists( 'KuntaAPI\Services\TwigExtension' ) ) {
     public function shortDayFilter($text) {
       return $this->dayMap[$text];
     }
+    
+    public function serviceLocationPathFilter($text) {
+      $pageId = $this->mapper->getDefaultPageId($text);
+      if (empty(!$pageId)) {
+      	return '/' . get_page_uri($pageId);
+      }
+      
+      return 'about:blank';
+    }
+    
   }
 }
 ?>
