@@ -4,7 +4,6 @@
   defined( 'ABSPATH' ) || die( 'No script kiddies please!' );
   
   require_once( __DIR__ . '/vendor/autoload.php');
-  require_once( __DIR__ . '/service-channel-mapper.php');
   
   if (!class_exists( 'KuntaAPI\Services\ServiceChannelRenderer' ) ) {
     class ServiceChannelRenderer {
@@ -49,7 +48,7 @@
       }
       
       public function renderWebPageChannel($serviceId, $webPageChannel, $lang) {
-      	return $this->twig->render("service-components/service-location-service-channel.twig", [
+      	return $this->twig->render("service-components/webpage-service-channel.twig", [
       	  'serviceId' => $serviceId,
       	  'lang' => $lang,
       	  'webPageChannel' => $webPageChannel
