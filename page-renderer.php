@@ -2,7 +2,6 @@
   namespace KuntaAPI\Services;
   
   use KuntaAPI\Services\ServiceComponentMapper;
-  use KuntaAPI\Services\ServiceChannelMapper;
     
   defined( 'ABSPATH' ) || die( 'No script kiddies please!' );
   
@@ -23,18 +22,6 @@
         $serviceId = $service->getId();
         
         $componentDatas = ServiceComponentMapper::mapLocaleContents($service);
-        foreach ($componentDatas as $language => $value) {
-          $componentDatas[$language]['webPageChannels'] = [];
-        }
-        
-        if(isset($service['webPageChannels'])) {
-          foreach ($service['webPageChannels'] as $webPageChannel) {
-            foreach (ServiceChannelMapper::mapWebPageChannel($serviceId, $webPageChannel) as $language => $webPageChannelData) {
-             $componentDatas[$language]['webPageChannels'][] = $webPageChannelData;
-            }
-          }
-        }
-        
         $languageData = $componentDatas[$lang];
         return $this->twig->render("pages/service.twig", [
           'serviceId' => $serviceId,
@@ -46,7 +33,7 @@
           'phoneChannels' => $service['phoneChannels'],
           'printableFormChannels' => $service['printableFormChannels'],
           'serviceLocationChannels' => $service['serviceLocationChannels'],
-          'webPageChannels' => $languageData['webPageChannels']
+          'webPageChannels' => $service['webPageChannels']
         ]);
       }
 

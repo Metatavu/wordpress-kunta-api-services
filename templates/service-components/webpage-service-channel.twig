@@ -1,3 +1,2 @@
-<h4>{{ name }}</h4>
-<p>{{ description|nl2br }}</p>
-<a href="{{ url }}">linkki</a>
+<h4><a href="{{ webPageChannel.urls|localizedValue(lang) }}">{{ webPageChannel.names|localizedValue(lang)|nl2br }}</a></h4>
+<p>{{ webPageChannel.descriptions|localizedValue(lang)|nl2br }}</p>

@@ -1,7 +1,5 @@
 <?php
   namespace KuntaAPI\Services;
-
-  use KuntaAPI\Services\ServiceChannelMapper;
 		
   defined( 'ABSPATH' ) || die( 'No script kiddies please!' );
   
@@ -51,8 +49,11 @@
       }
       
       public function renderWebPageChannel($serviceId, $webPageChannel, $lang) {
-        $channelData = ServiceChannelMapper::mapWebPageChannel($serviceId, $webPageChannel)[$lang];
-        return $this->twig->render("service-components/webpage-service-channel.twig", $channelData);
+      	return $this->twig->render("service-components/service-location-service-channel.twig", [
+      	  'serviceId' => $serviceId,
+      	  'lang' => $lang,
+      	  'webPageChannel' => $webPageChannel
+      	]);
       }
       
     }  
