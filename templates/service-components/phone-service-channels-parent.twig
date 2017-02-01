@@ -1,0 +1,8 @@
+{% if phoneChannels %}
+<h3>Puhelinnumerot</h3>
+{% for phoneChannel in phoneChannels %}
+  <article data-type="kunta-api-service-phone-channel" data-service-id="{{ serviceId }}" data-service-channel-id="{{ phoneChannel.id }}">
+  {% include 'service-components/phone-service-channel.twig' %}
+  </article>
+{% endfor %}  
+{% endif %}

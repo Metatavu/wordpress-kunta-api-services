@@ -1,0 +1,7 @@
+<h4><a href="{{ electronicChannel.urls|localizedValue(lang) }}">{{ electronicChannel.names|localizedValue(lang)|nl2br }}</a></h4>
+<p>{{ electronicChannel.descriptions|localizedValue(lang)|nl2br }}</p>
+{% if electronicChannel.requiresAuthentication %}
+<i>Palvelu vaatii sähköisen tunnistautumisen</i>
+{% else %}
+<i>Palvelu ei vaadi sähköistä tunnistautumista</i>
+{% endif %}

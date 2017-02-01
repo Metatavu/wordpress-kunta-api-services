@@ -1,0 +1,4 @@
+<h4>{{ phoneChannel.names|localizedValue(lang)|nl2br }}</h4>
+<p>{{ phoneChannel.descriptions|localizedValue(lang)|nl2br }}</p>
+<p>{{ phoneChannel.phoneNumbers|localizedValue(lang)|nl2br }}</p>
+{% include 'service-components/servicehours-fragment.twig' with phoneChannel.serviceHours only %}

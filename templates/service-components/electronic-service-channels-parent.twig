@@ -1,0 +1,8 @@
+{% if electronicChannels %}
+<h3>Verkkoasiointikanavat</h3>
+{% for electronicChannel in electronicChannels %}
+  <article data-type="kunta-api-service-electronic-channel" data-service-id="{{ serviceId }}" data-service-channel-id="{{ electronicChannel.id }}">
+  {% include 'service-components/electronic-service-channel.twig' %}
+  </article>
+{% endfor %}  
+{% endif %}

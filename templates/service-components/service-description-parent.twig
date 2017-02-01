@@ -1,0 +1,6 @@
+{% spaceless %}
+{% if service.descriptions|localizedValue(lang, 'Description') %}
+  <h3>Kuvaus</h3>
+  <article data-type="kunta-api-service-component" data-component="description" data-service-id="{{ serviceId }}">{% include 'service-components/service-description.twig' %}</article>
+{% endif %}
+{% endspaceless %}

@@ -1,0 +1,6 @@
+{% if webPageChannels %}
+<h3>Hyödylliset linkit</h3>
+{% for webPageChannel in webPageChannels %}
+<article data-component="description" data-type="kunta-api-service-webpage-channel" data-service-id="{{ serviceId }}" data-service-channel-id="{{ webPageChannel.id }}">{% include 'service-components/webpage-service-channel.twig' %}</article>
+{% endfor %}  
+{% endif %}

@@ -1,0 +1,4 @@
+{% if serviceLocationChannel.phone %}
+<h3>Puhelinnumero</h3>
+<article data-type="kunta-api-service-location-component" data-component="phone" data-service-id="{{ serviceId }}" data-service-channel-id="{{ serviceLocationChannel.id }}" data-lang="{{ lang }}">{% include 'service-location-components/phone.twig' %}</article>
+{% endif %}

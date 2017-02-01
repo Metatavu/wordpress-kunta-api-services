@@ -1,0 +1,7 @@
+{% if "Free" in serviceLocationChannel.chargeTypes %}
+Täysin maksuton
+{% elseif "Charged" in serviceLocationChannel.chargeTypes %}
+Paikallisverkkomaksu (pvm), matkapuhelinmaksu (mpm), ulkomaanpuhelumaksu
+{% else %}
+{{ serviceLocationChannel.phoneChargeDescriptions|localizedValue(lang) }}
+{% endif %}

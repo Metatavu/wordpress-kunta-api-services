@@ -2,7 +2,7 @@
   defined( 'ABSPATH' ) || die( 'No script kiddies please!' );
   
   require_once( __DIR__ . '/vendor/autoload.php');
-  require_once( __DIR__ . '/service-component-renderer.php');  
+  require_once( __DIR__ . '/services/service-component-renderer.php');  
   
   add_action( 'wp_ajax_kunta_api_search_services', function () {
     $organizationId = \KuntaAPI\Core\CoreSettings::getValue('organizationId');
