@@ -19,10 +19,10 @@ require_once( __DIR__ . '/service-channel-renderer.php');
 require_once( __DIR__ . '/tinymce.php');
 require_once( __DIR__ . '/ckeditor.php');
 require_once( __DIR__ . '/service-search-ajax.php');
-require_once( __DIR__ . '/service-channel-processors/electronic-channel-content-processor.php');
-require_once( __DIR__ . '/service-channel-processors/phone-channel-content-processor.php');
-require_once( __DIR__ . '/service-channel-processors/printable-form-channel-content-processor.php');
-require_once( __DIR__ . '/service-channel-processors/service-location-channel-content-processor.php');
-require_once( __DIR__ . '/service-channel-processors/webpage-channel-content-processor.php');
+require_once( __DIR__ . '/service-channels/electronic-channel-content-processor.php');
+require_once( __DIR__ . '/service-channels/phone-channel-content-processor.php');
+require_once( __DIR__ . '/service-channels/printable-form-channel-content-processor.php');
+require_once( __DIR__ . '/service-channels/service-location-channel-content-processor.php');
+require_once( __DIR__ . '/service-channels/webpage-channel-content-processor.php');
 
 ?>
