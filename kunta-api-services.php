@@ -14,7 +14,7 @@ require_once( __DIR__ . '/activator.php');
 require_once( __DIR__ . '/settings.php');
 require_once( __DIR__ . '/twig-extension.php');
 require_once( __DIR__ . '/service-updater.php');
-require_once( __DIR__ . '/service-content-processor.php');
+require_once( __DIR__ . '/services/service-content-processor.php');
 require_once( __DIR__ . '/service-channels/service-channel-renderer.php');
 require_once( __DIR__ . '/tinymce.php');
 require_once( __DIR__ . '/ckeditor.php');
