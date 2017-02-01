@@ -14,13 +14,13 @@ if (!class_exists( 'KuntaAPI\Services\TwigExtension' ) ) {
     public function __construct() {
       $this->mapper = new \KuntaAPI\Services\Mapper();
       $this->dayMap = [
-          '0' => 'Su',
-          '1' => 'Ma',
-          '2' => 'Ti',
-          '3' => 'Ke',
-          '4' => 'To',
-          '5' => 'Pe',
-          '6' => 'La'
+        '0' => 'Su',
+        '1' => 'Ma',
+        '2' => 'Ti',
+        '3' => 'Ke',
+        '4' => 'To',
+        '5' => 'Pe',
+        '6' => 'La'
       ];
     }
       
@@ -51,7 +51,7 @@ if (!class_exists( 'KuntaAPI\Services\TwigExtension' ) ) {
     public function serviceLocationPathFilter($text) {
       $pageId = $this->mapper->getDefaultPageId($text);
       if (empty(!$pageId)) {
-      	return '/' . get_page_uri($pageId);
+        return '/' . get_page_uri($pageId);
       }
       
       return 'about:blank';
