@@ -1,12 +1,9 @@
 <?php
   namespace KuntaAPI\Services;
-  
-  use KuntaAPI\Services\ServiceComponentMapper;
-		
+  	
   defined( 'ABSPATH' ) || die( 'No script kiddies please!' );
   
   require_once( __DIR__ . '/vendor/autoload.php');
-  require_once( __DIR__ . '/service-component-mapper.php');
   
   if (!class_exists( 'KuntaAPI\Services\ServiceComponentRenderer' ) ) {
     class ServiceComponentRenderer {
@@ -19,18 +16,18 @@
       }
       
       public function renderComponent($service, $lang, $type) {
-        $componentData = ServiceComponentMapper::mapLocaleContents($service)[$lang];
-        if (!isset($componentData)) {
-          return '';
-        }
+        $model = [
+          'lang' => $lang,
+          'service' => $service
+        ];
         
         switch ($type) {
           case 'description':
-            return $this->twig->render("service-components/service-description.twig", $componentData);
+            return $this->twig->render("service-components/service-description.twig", $model);
           case 'userInstruction':
-            return $this->twig->render("service-components/service-user-instructions.twig", $componentData);
+            return $this->twig->render("service-components/service-user-instructions.twig", $model);
           case 'languages':
-            return $this->twig->render("service-components/service-languages.twig", $componentData);
+            return $this->twig->render("service-components/service-languages.twig", $model);
           default:
             error_log("unknown servicetype $type");
             break;
@@ -38,18 +35,18 @@
       }
       
       public function renderComponentParent($service, $lang, $type) {
-        $componentData = ServiceComponentMapper::mapLocaleContents($service)[$lang];
-        if (!isset($componentData)) {
-          return '';
-        }
-        
+      	$model = [
+      	  'lang' => $lang,
+      	  'service' => $service
+      	];
+      	 
         switch ($type) {
           case 'description':
-            return $this->twig->render("service-components/service-description-parent.twig", $componentData);
+            return $this->twig->render("service-components/service-description-parent.twig", $model);
           case 'userInstruction':
-            return $this->twig->render("service-components/service-user-instructions-parent.twig", $componentData);
+            return $this->twig->render("service-components/service-user-instructions-parent.twig", $model);
           case 'languages':
-            return $this->twig->render("service-components/service-languages-parent.twig", $componentData);
+            return $this->twig->render("service-components/service-languages-parent.twig", $model);
           default:
             error_log("unknown servicetype $type");
             break;
