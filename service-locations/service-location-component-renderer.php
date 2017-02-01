@@ -25,13 +25,7 @@
           'serviceLocationChannel' => $serviceLocationChannel
         ];
         
-        switch ($component) {
-          case 'name':
-            return $this->twig->render("service-location-components/name.twig", $model);
-          default:
-            error_log("unknown service location component $component");
-            break;
-        }
+        return $this->twig->render("service-location-components/$component.twig", $model);
       }
       
       public function renderComponentParent($lang, $service, $serviceLocationChannel, $component) {
@@ -42,13 +36,7 @@
           'serviceLocationChannel' => $serviceLocationChannel
         ];
       
-        switch ($component) {
-          case 'name':
-            return $this->twig->render("service-location-components/name-parent.twig", $model);
-          default:
-            error_log("unknown service location component $component");
-            break;
-        }
+        return $this->twig->render("service-location-components/$component-parent.twig", $model);
       }
       
     }  
