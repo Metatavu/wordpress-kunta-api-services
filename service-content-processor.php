@@ -2,7 +2,7 @@
   namespace KuntaAPI\Services;
   
   require_once( __DIR__ . '/vendor/autoload.php');
-  require_once( __DIR__ . '/service-component-renderer.php');
+  require_once( __DIR__ . '/services/service-component-renderer.php');
   
   if (!defined('ABSPATH')) { 
     exit;
