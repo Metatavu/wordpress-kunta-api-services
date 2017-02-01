@@ -3,7 +3,7 @@
   
   defined( 'ABSPATH' ) || die( 'No script kiddies please!' );
   
-  require_once( __DIR__ . '/vendor/autoload.php');
+  require_once( __DIR__ . '/../vendor/autoload.php');
   
   if (!class_exists( 'KuntaAPI\Services\Mapper' ) ) {
     class Mapper {
