@@ -5,7 +5,7 @@
   
   require_once(__DIR__ . '/vendor/autoload.php');
   require_once(__DIR__ . '/service-loader.php');
-  require_once(__DIR__ . '/service-mapper.php');
+  require_once(__DIR__ . '/services/service-mapper.php');
   require_once(__DIR__ . '/page-renderer.php');
   
   if (!class_exists( 'KuntaAPI\Services\Updater' ) ) {
@@ -86,7 +86,7 @@
       	$defaultPageId = $this->mapper->getDefaultPageId($serviceId);
       	if (!$defaultPageId) {
       	  $title = \KuntaAPI\Core\LocaleHelper::getDefaultValue($service->getNames());
-      	  $content = $this->renderDefaultPage(\KuntaAPI\Core\LocaleHelper::getCurrentLanguage(), $service);
+      	  $content = $this->renderServicePage(\KuntaAPI\Core\LocaleHelper::getCurrentLanguage(), $service);
       	  $pageId = $this->createPage(0, $title, $content);
       	  $this->mapper->setDefaultPageId($serviceId, $pageId);
       	}
@@ -110,7 +110,7 @@
       	}
       }
       
-      private function renderDefaultPage($lang, $service) {
+      private function renderServicePage($lang, $service) {
       	return $this->renderer->renderServicePage($lang, $service);
       }
       
